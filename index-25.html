@@ -1,0 +1,2860 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1553B4">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TecEdu">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<title>TecEdu – ETE Luiz Alves Lacerda</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1553B4;--bd:#0d3d8a;--bl:#1a68d4;
+  --og:#F5A623;--gn:#27ae60;--pp:#8e44ad;
+  --re:#e74c3c;--sf:#f0f4fb;--tx:#1a2a4a;
+  --mu:#6b7c99;--sh:0 2px 16px rgba(21,83,180,.10);
+  --warn:#FF6B35;
+}
+body{font-family:'Inter',sans-serif;background:#dce6f7;display:flex;justify-content:center;padding:20px 0 60px;min-height:100vh}
+.phone{width:390px;min-height:844px;background:var(--sf);border-radius:44px;box-shadow:0 30px 80px rgba(10,37,64,.28),inset 0 0 0 2px rgba(255,255,255,.7);overflow:hidden;display:flex;flex-direction:column;position:relative}
+.sbar{background:var(--bd);display:flex;justify-content:space-between;align-items:center;padding:12px 24px 9px;font-size:12px;color:rgba(255,255,255,.9);font-weight:700;flex-shrink:0}
+.sb-r{display:flex;gap:5px;align-items:center}
+.bat{width:20px;height:10px;border:1.5px solid rgba(255,255,255,.7);border-radius:2px;position:relative;display:flex;align-items:center;padding:1px}
+.bat::after{content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);width:2.5px;height:4px;background:rgba(255,255,255,.7);border-radius:1px}
+.bf{width:80%;height:100%;background:#7ec8ff;border-radius:1px}
+.scr{display:none !important;flex-direction:column;overflow-y:auto;flex:1;min-height:0}
+.scr.on{display:flex !important;flex-direction:column}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes ringShake{0%,100%{transform:rotate(0)}15%{transform:rotate(-15deg)}30%{transform:rotate(15deg)}45%{transform:rotate(-10deg)}60%{transform:rotate(10deg)}75%{transform:rotate(-5deg)}90%{transform:rotate(5deg)}}
+@keyframes urgentPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,53,.4)}50%{box-shadow:0 0 0 12px rgba(255,107,53,0)}}
+@keyframes countPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes progressFill{from{width:0%}to{width:var(--prog-w)}}
+
+/* SPLASH */
+#splash{background:linear-gradient(170deg,#1553B4,#1a68d4 55%,#0d3d8a);align-items:center;justify-content:center;padding:40px 32px}
+.sp-card{background:#fff;border-radius:22px;padding:16px 20px 17px;width:240px;text-align:center;margin-bottom:32px;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:popIn .6s cubic-bezier(.34,1.56,.64,1) both}
+.sp-inn{background:#0d3d8a;border-radius:12px;padding:12px 18px 10px;margin-bottom:10px}
+.sp-ete{font-size:42px;font-weight:900;letter-spacing:6px;line-height:1;margin-bottom:4px}
+.sp-ete .e1{color:#e74c3c}.sp-ete .t{color:#f5a623}.sp-ete .e2{color:#2ecc71}
+.sp-esub{color:rgba(255,255,255,.85);font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:700}
+.sp-nm{font-size:11px;font-weight:800;color:#0d3d8a;letter-spacing:.8px;text-transform:uppercase}
+.sp-brand{font-size:38px;font-weight:900;color:#fff;letter-spacing:-1.5px;animation:fadeUp .5s .2s both}
+.sp-brand span{color:#7ec8ff}
+.sp-sub{font-size:13px;color:rgba(255,255,255,.6);margin-top:4px;animation:fadeUp .5s .35s both}
+.sp-tag{margin-top:24px;font-size:15px;color:rgba(255,255,255,.75);text-align:center;line-height:1.6;animation:fadeUp .5s .5s both}
+.btn-w{margin-top:34px;width:100%;padding:17px;background:#fff;color:#1553B4;font-size:16px;font-weight:800;border:none;border-radius:14px;cursor:pointer;box-shadow:0 8px 28px rgba(0,0,0,.2);transition:transform .15s;animation:fadeUp .5s .65s both}
+.btn-w:active{transform:scale(.97)}
+.btn-o{margin-top:10px;width:100%;padding:14px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.9);font-size:14px;font-weight:600;border:1.5px solid rgba(255,255,255,.25);border-radius:14px;cursor:pointer;animation:fadeUp .5s .75s both}
+
+/* LOGIN */
+#login{background:var(--blue);overflow:hidden;position:relative;min-height:100%;display:flex;flex-direction:column}
+#login::before{content:'';position:absolute;width:350px;height:350px;background:rgba(255,255,255,.05);border-radius:50%;top:-100px;right:-80px}
+.lt{padding:28px 26px 24px;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;flex-shrink:0}
+.le-card{background:#fff;border-radius:18px;padding:12px 16px 14px;width:200px;text-align:center;box-shadow:0 14px 40px rgba(0,0,0,.22);margin-bottom:22px}
+.le-inn{background:#0d3d8a;border-radius:10px;padding:10px 16px 9px;margin-bottom:8px}
+.le-ete{font-size:28px;font-weight:900;letter-spacing:4px;line-height:1;margin-bottom:3px}
+.le-ete .e1{color:#e74c3c}.le-ete .t{color:#f5a623}.le-ete .e2{color:#2ecc71}
+.le-sub{color:rgba(255,255,255,.82);font-size:7px;letter-spacing:2.5px;text-transform:uppercase;font-weight:700}
+.le-nm{font-size:10px;font-weight:800;color:#0d3d8a;letter-spacing:.7px;text-transform:uppercase}
+.lb{font-size:30px;font-weight:900;color:#fff;letter-spacing:-1px}
+.lb span{color:#7ec8ff}
+.lb-s{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px}
+.lsheet{background:#f0f4fb;border-radius:30px 30px 0 0;padding:28px 24px 36px;flex:1;z-index:2;overflow:hidden}
+.lsheet h2{font-size:22px;font-weight:800;color:#1a2a4a;margin-bottom:2px}
+.ls{font-size:13px;color:var(--mu);margin-bottom:22px}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:13px;font-weight:600;color:#1a2a4a;margin-bottom:6px}
+.fg input{width:100%;padding:13px 16px;background:#fff;border:2px solid transparent;border-radius:13px;font-size:15px;color:var(--tx);outline:none;box-shadow:0 2px 10px rgba(21,83,180,.08);transition:border-color .2s}
+.fg input:focus{border-color:var(--blue)}
+.fg input::placeholder{color:#c0c9da}
+.btn-bl{width:100%;padding:15px;background:var(--blue);color:#fff;font-size:15px;font-weight:800;border:none;border-radius:13px;cursor:pointer;margin-top:4px;box-shadow:0 8px 22px rgba(21,83,180,.35);transition:transform .15s}
+.btn-bl:active{transform:scale(.97)}
+.fgt{text-align:center;font-size:13px;color:var(--mu);margin-top:14px}
+.fgt a{color:var(--blue);text-decoration:none;font-weight:600}
+
+/* HOME */
+#home{background:var(--sf)}
+.hh{background:linear-gradient(160deg,#0d3d8a,#1553B4 60%,#1a68d4);padding:0;border-radius:0 0 32px 32px;flex-shrink:0}
+.hh-logo{background:#fff;margin:16px 16px 0;border-radius:18px;padding:13px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.18)}
+.hhl-badge{background:#0d3d8a;border-radius:10px;padding:8px 12px;text-align:center}
+.hhl-ete{font-size:22px;font-weight:900;letter-spacing:4px;line-height:1;margin-bottom:2px}
+.hhl-ete .e1{color:#e74c3c}.hhl-ete .t{color:#f5a623}.hhl-ete .e2{color:#2ecc71}
+.hhl-sub{color:rgba(255,255,255,.85);font-size:6.5px;letter-spacing:2px;text-transform:uppercase;font-weight:700}
+.hhl-r{flex:1}
+.hhl-sch{font-size:13px;font-weight:800;color:#0d3d8a}
+.hhl-cur{font-size:11px;color:var(--mu);margin-top:1px}
+.hhl-clk{background:rgba(21,83,180,.08);border-radius:9px;padding:5px 10px;font-size:12px;font-weight:700;color:var(--blue);margin-top:6px;display:inline-flex;align-items:center;gap:4px}
+.hh-greet{padding:16px 20px 20px}
+.hg-name{font-size:26px;font-weight:900;color:#fff;letter-spacing:-.5px}
+.hg-sub{font-size:13px;color:rgba(255,255,255,.7);margin-top:2px}
+.hg-chips{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:600;color:#fff;white-space:nowrap}
+
+/* ========== PRÓXIMA SALA CARD - NOVO ========== */
+#proxima-sala-card{margin:14px 16px 0;border-radius:18px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.15);transition:all .4s;position:relative;display:none}
+#proxima-sala-card.show{display:block}
+
+/* Estado: AGORA EM AULA */
+.psc-now{background:linear-gradient(135deg,#0d3d8a,#1553B4)}
+.psc-now .psc-label{color:rgba(255,255,255,.75)}
+.psc-now .psc-disc{color:#fff}
+.psc-now .psc-sala{color:#7ec8ff}
+
+/* Estado: EM BREVE (< 30min) */
+.psc-soon{background:linear-gradient(135deg,#b34400,#FF6B35);animation:urgentPulse 2s infinite}
+.psc-soon .psc-label{color:rgba(255,255,255,.8)}
+.psc-soon .psc-disc{color:#fff}
+.psc-soon .psc-sala{color:#ffe0d0}
+
+/* Estado: PRÓXIMA (>30min) */
+.psc-next{background:linear-gradient(135deg,#006e38,#27ae60)}
+.psc-next .psc-label{color:rgba(255,255,255,.75)}
+.psc-next .psc-disc{color:#fff}
+.psc-next .psc-sala{color:#b8f0cf}
+
+.psc-inner{padding:16px 18px 14px;position:relative}
+.psc-row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.psc-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px}
+.psc-badge-time{background:rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:800;color:#fff;display:flex;align-items:center;gap:5px}
+.psc-disc{font-size:17px;font-weight:900;line-height:1.2;margin-bottom:4px}
+.psc-sala{font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.psc-sala-ico{font-size:14px}
+
+/* Barra de progresso da aula */
+.psc-prog-wrap{background:rgba(255,255,255,.2);border-radius:4px;height:5px;margin-bottom:10px;overflow:hidden}
+.psc-prog-bar{height:100%;border-radius:4px;background:rgba(255,255,255,.9);transition:width .5s}
+
+.psc-footer{display:flex;align-items:center;justify-content:space-between}
+.psc-prof{font-size:12px;font-weight:600;color:rgba(255,255,255,.8)}
+.psc-timer{font-size:22px;font-weight:900;color:#fff;letter-spacing:-0.5px;font-variant-numeric:tabular-nums}
+.psc-timer-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.8px;text-align:right;margin-top:1px}
+
+/* Ícone sino animado */
+.psc-bell{font-size:22px;animation:ringShake .8s ease-in-out infinite;display:inline-block;transform-origin:top center}
+
+/* ALERTA URGENTE overlay - aparece quando faltam ≤ 10 min */
+#urgency-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;align-items:flex-end;justify-content:center;background:rgba(10,37,64,.6);backdrop-filter:blur(6px)}
+#urgency-overlay.show{display:flex}
+.urgency-sheet{background:#fff;border-radius:26px 26px 0 0;padding:24px 24px 40px;width:100%;max-width:390px;animation:slideUp .35s cubic-bezier(.34,1.56,.64,1)}
+.urg-header{text-align:center;margin-bottom:20px}
+.urg-emoji{font-size:52px;display:block;animation:ringShake 1s infinite}
+.urg-title{font-size:22px;font-weight:900;color:#1a2a4a;margin-top:8px}
+.urg-sub{font-size:14px;color:#6b7c99;margin-top:4px}
+.urg-card{background:linear-gradient(135deg,#FF6B35,#b34400);border-radius:18px;padding:18px 20px;margin-bottom:16px}
+.urg-disc-name{font-size:20px;font-weight:900;color:#fff;margin-bottom:4px}
+.urg-sala-row{display:flex;align-items:center;gap:8px}
+.urg-sala-pill{background:rgba(255,255,255,.25);border-radius:20px;padding:6px 14px;font-size:14px;font-weight:800;color:#fff;display:inline-flex;align-items:center;gap:5px}
+.urg-prof{font-size:13px;color:rgba(255,255,255,.8);margin-top:8px}
+.urg-countdown{font-size:42px;font-weight:900;color:#FF6B35;text-align:center;margin:12px 0;letter-spacing:-1px}
+.urg-countdown-lbl{font-size:12px;color:#6b7c99;text-align:center;margin-top:-8px;margin-bottom:16px;font-weight:600}
+.urg-btn{width:100%;padding:16px;background:var(--blue);color:#fff;font-size:15px;font-weight:800;border:none;border-radius:14px;cursor:pointer}
+
+/* ALERT BAR */
+.alert-bar{margin:14px 16px 0;background:#fff;border-radius:14px;padding:12px 15px;display:flex;align-items:center;gap:9px;box-shadow:var(--sh);border-left:4px solid var(--og)}
+.ab-badge{background:var(--og);color:#fff;font-size:9px;font-weight:800;padding:3px 8px;border-radius:20px;text-transform:uppercase;white-space:nowrap}
+.ab-txt{font-size:13px;color:var(--tx);flex:1}
+.ab-lnk{font-size:12px;font-weight:700;color:var(--blue);white-space:nowrap;cursor:pointer}
+
+/* MAIN CARDS */
+.mcards{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 16px 0}
+.mc{background:#fff;border-radius:18px;padding:16px;box-shadow:var(--sh);cursor:pointer;transition:transform .15s;display:flex;flex-direction:column;border:none;text-align:left}
+.mc:active{transform:scale(.96)}
+.mc-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px}
+.mc-ic{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.mc-ttl{font-size:14px;font-weight:800;color:var(--tx);line-height:1.25;margin-bottom:3px}
+.mc-sub{font-size:11px;color:var(--mu);line-height:1.4}
+.mc-ft{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+.mc-tag{display:inline-flex;align-items:center;gap:4px;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700}
+.mc-arr{font-size:16px;color:#ccc}
+.ic-bl{background:rgba(21,83,180,.12);color:var(--blue)}
+.ic-gn{background:rgba(39,174,96,.12);color:var(--gn)}
+.ic-og{background:rgba(245,166,35,.14);color:#d4891a}
+.ic-pp{background:rgba(142,68,173,.12);color:var(--pp)}
+.tg-bl{background:rgba(21,83,180,.1);color:var(--blue)}
+.tg-gn{background:rgba(39,174,96,.1);color:var(--gn)}
+.tg-og{background:rgba(245,166,35,.14);color:#b07200}
+.tg-pp{background:rgba(142,68,173,.1);color:var(--pp)}
+
+/* QUICK ACCESS */
+.sec-ttl{font-size:16px;font-weight:800;color:var(--tx);padding:16px 16px 10px}
+.qrow{display:flex;justify-content:space-around;padding:0 8px 6px}
+.qb{display:flex;flex-direction:column;align-items:center;gap:8px;background:none;border:none;cursor:pointer;transition:transform .15s;padding:4px 6px}
+.qb:active{transform:scale(.93)}
+.qb-ic{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.qb-lbl{font-size:10px;font-weight:700;color:var(--tx);text-align:center;line-height:1.3;max-width:58px}
+.qi-re{background:linear-gradient(135deg,#e74c3c,#c0392b)}
+.qi-bl{background:linear-gradient(135deg,#1553B4,#0d3d8a)}
+.qi-gn{background:linear-gradient(135deg,#27ae60,#1e8449)}
+.qi-og{background:linear-gradient(135deg,#F5A623,#e67e22)}
+.qi-nv{background:linear-gradient(135deg,#2c3e50,#1a252f)}
+
+/* PAGE HEADER */
+.phdr{background:linear-gradient(135deg,#0d3d8a,var(--blue));padding:18px 20px 22px;border-radius:0 0 24px 24px;display:flex;align-items:center;gap:11px;flex-shrink:0}
+.phdr h2{font-size:18px;font-weight:800;color:#fff;flex:1}
+.bbtn{width:34px;height:34px;background:rgba(255,255,255,.15);border:none;border-radius:10px;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* HORÁRIOS */
+#horarios{background:var(--sf)}
+.dtabs{display:flex;gap:7px;padding:14px 16px 8px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.dtabs::-webkit-scrollbar{display:none}
+.dtab{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 12px;border-radius:13px;background:#fff;border:none;cursor:pointer;box-shadow:var(--sh);transition:all .2s;min-width:50px}
+.dtab .dl{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase}
+.dtab .dn{font-size:17px;font-weight:800;color:var(--tx)}
+.dtab.on{background:var(--blue)}
+.dtab.on .dl,.dtab.on .dn{color:#fff}
+.dtab.td .dn{color:var(--blue)}
+.gwrap{padding:0 14px 24px}
+.sbadge{background:linear-gradient(135deg,#0d3d8a,var(--blue));border-radius:14px;padding:12px 16px;margin:12px 0 10px;display:flex;align-items:center;gap:10px}
+.sbadge .sbn{font-size:13px;font-weight:800;color:#fff}
+.sbadge .sbs{font-size:11px;color:rgba(255,255,255,.6);margin-top:1px}
+.gtbl{width:100%;border-collapse:collapse;border-radius:14px;overflow:hidden;box-shadow:var(--sh)}
+.gtbl thead{background:rgba(21,83,180,.08)}
+.gtbl th{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.6px;padding:9px 7px;text-align:center}
+.gtbl th:first-child{text-align:left;padding-left:13px}
+.gtbl tbody tr{background:#fff;border-bottom:1px solid var(--sf)}
+.gtbl tbody tr:last-child{border-bottom:none}
+.gtbl tbody tr.rnow{background:rgba(21,83,180,.04)}
+.gtbl td{padding:10px 7px;font-size:11px;color:var(--tx);text-align:center;vertical-align:middle}
+.gtbl td:first-child{padding-left:13px;font-weight:700;color:var(--mu);text-align:left;white-space:nowrap}
+.dch{display:inline-block;border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700;text-align:center;white-space:nowrap}
+.nd{display:inline-block;width:6px;height:6px;background:var(--og);border-radius:50%;margin-right:3px;animation:pulse 1.5s infinite;vertical-align:middle}
+.ead-t{font-size:9px;background:rgba(245,166,35,.15);color:#b07200;border-radius:5px;padding:2px 5px;font-weight:700}
+.c-dt{background:rgba(21,83,180,.1);color:#1553B4}
+.c-pnt{background:rgba(245,166,35,.13);color:#c47e00}
+.c-abd{background:rgba(0,110,56,.1);color:#006e38}
+.c-pi{background:rgba(255,77,109,.1);color:#c9003a}
+.c-lpc{background:rgba(108,71,255,.1);color:#6c47ff}
+.c-dcu{background:rgba(0,150,255,.1);color:#006fcc}
+.c-hsce{background:rgba(245,166,35,.12);color:#c47e00}
+.c-ac{background:rgba(100,100,100,.08);color:#888}
+
+/* DISCIPLINAS */
+#disciplinas{background:var(--sf)}
+.dwrap{padding:0 14px 24px}
+.cbanner{background:linear-gradient(135deg,#0d3d8a,var(--blue));border-radius:16px;padding:16px 18px;margin:14px 0 16px;display:flex;align-items:center;gap:12px;box-shadow:0 6px 22px rgba(21,83,180,.25)}
+.cb-ic{font-size:30px}
+.cb-ti{font-size:15px;font-weight:800;color:#fff}
+.cb-su{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
+.cb-bg{margin-left:auto;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:9px;padding:4px 10px;font-size:10px;font-weight:700;color:#fff;white-space:nowrap}
+.mtabs{display:flex;gap:7px;margin-bottom:14px}
+.mtab{flex:1;padding:9px 5px;border-radius:13px;border:2.5px solid transparent;background:#fff;box-shadow:var(--sh);cursor:pointer;text-align:center;transition:all .2s}
+.mtab .mtn{font-size:17px;font-weight:800;color:var(--mu)}
+.mtab .mtl{font-size:9px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.mtab.on{background:var(--blue);border-color:var(--blue)}
+.mtab.on .mtn,.mtab.on .mtl{color:#fff}
+.mpanel{display:none;flex-direction:column;gap:8px}
+.mpanel.on{display:flex}
+.mhdr{background:#fff;border-radius:13px;padding:12px 15px;display:flex;align-items:center;gap:10px;box-shadow:var(--sh);margin-bottom:2px}
+.mhd{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.mht{font-size:13px;font-weight:800;color:var(--tx)}
+.mhc{margin-left:auto;font-size:11px;color:var(--mu);font-weight:600}
+.dc{background:#fff;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--sh);cursor:pointer;transition:transform .15s;border-left:4px solid #dde3ef}
+.dc:active{transform:scale(.97)}
+.dsig{font-size:11px;font-weight:800;min-width:56px;text-align:center;padding:6px 7px;border-radius:10px;line-height:1.2}
+.di .dn2{font-size:13px;font-weight:700;color:var(--tx);line-height:1.3}
+.di .dp{font-size:11px;color:var(--mu);margin-top:2px}
+.tg-hj{background:rgba(21,83,180,.1);color:var(--blue);display:flex;align-items:center;gap:3px;font-size:9px;font-weight:700;padding:3px 8px;border-radius:7px;white-space:nowrap}
+.ldot{width:5px;height:5px;border-radius:50%;background:var(--blue);animation:pulse 1.5s infinite}
+.disc-sec{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1px;padding:4px 2px}
+
+/* ONDE PAREI */
+#parei{background:var(--sf)}
+.pwrap{padding:0 14px 24px}
+.pintro{background:linear-gradient(135deg,#0d3d8a,var(--blue));border-radius:16px;padding:16px 18px;margin:14px 0 16px;box-shadow:0 6px 22px rgba(21,83,180,.25)}
+.pintro h3{font-size:16px;font-weight:800;color:#fff;margin-bottom:4px}
+.pintro p{font-size:12px;color:rgba(255,255,255,.7);line-height:1.5}
+.pc{background:#fff;border-radius:16px;padding:15px;box-shadow:var(--sh);margin-bottom:10px;border-left:4px solid #dde3ef}
+.pc-top{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.pc-sig{font-size:11px;font-weight:800;padding:6px 8px;border-radius:10px;min-width:52px;text-align:center;line-height:1.2}
+.pc-nm{font-size:13px;font-weight:700;color:var(--tx);line-height:1.3}
+.pc-pr{font-size:11px;color:var(--mu);margin-top:1px}
+.pc-ed{margin-left:auto;background:rgba(21,83,180,.08);border:none;border-radius:9px;padding:6px 10px;font-size:11px;font-weight:700;color:var(--blue);cursor:pointer;flex-shrink:0}
+.pc-box{background:rgba(21,83,180,.04);border:1px solid rgba(21,83,180,.08);border-radius:12px;padding:12px 14px}
+.pcb-lbl{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.8px;font-weight:700;margin-bottom:6px}
+.pcb-val{font-size:13px;font-weight:600;color:var(--tx);line-height:1.4}
+.pcb-tip{font-size:11px;color:var(--mu);margin-top:4px}
+.pcb-emp{font-size:13px;color:#c0c9da;font-style:italic}
+.pc-btn{width:100%;margin-top:10px;padding:11px;background:var(--blue);color:#fff;font-size:13px;font-weight:700;border:none;border-radius:12px;cursor:pointer;transition:transform .15s}
+.pc-btn:active{transform:scale(.97)}
+.pc-btn.upd{background:linear-gradient(135deg,#006e38,#27ae60)}
+
+/* AVISOS */
+#avisos{background:var(--sf)}
+.av-list{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.av-sec{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1px;padding:2px 0 4px}
+.av-card{background:#fff;border-radius:16px;padding:14px 15px;display:flex;gap:12px;box-shadow:var(--sh);border-left:4px solid transparent;cursor:pointer;transition:transform .15s}
+.av-card:active{transform:scale(.98)}
+.av-card.nw{border-left-color:var(--blue)}
+.av-card.wn{border-left-color:var(--og)}
+.av-card.ok{border-left-color:var(--gn)}
+.av-ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.av-ttl{font-size:13px;font-weight:700;color:var(--tx)}
+.av-body{font-size:12px;color:var(--mu);margin-top:3px;line-height:1.4}
+.av-time{font-size:10px;color:#c0c9da;margin-top:5px}
+
+/* BOTTOM NAV */
+.bnav{display:none;position:sticky;bottom:0;background:#fff;padding:8px 8px 16px;border-top:1px solid rgba(21,83,180,.07);justify-content:space-around;box-shadow:0 -4px 20px rgba(21,83,180,.09);flex-shrink:0}
+.bnav.vis{display:flex}
+.nb{display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:none;cursor:pointer;padding:5px 10px;border-radius:12px;transition:background .2s}
+.nb .ni{font-size:20px}
+.nb .nl{font-size:10px;font-weight:700;color:var(--mu);letter-spacing:.2px}
+.nb.on .nl{color:var(--blue)}
+.nb.on{background:rgba(21,83,180,.08)}
+
+/* MODAL ANDAMENTO */
+.mov{display:none;position:fixed;inset:0;background:rgba(10,37,64,.55);z-index:100;align-items:flex-end;justify-content:center;backdrop-filter:blur(5px)}
+.mov.open{display:flex}
+.msh{background:#fff;border-radius:26px 26px 0 0;padding:16px 22px 36px;width:100%;max-width:390px;animation:slideUp .35s cubic-bezier(.34,1.56,.64,1)}
+.mhdl{width:38px;height:4px;background:#dde3ef;border-radius:4px;margin:0 auto 18px}
+.msh h3{font-size:18px;font-weight:800;color:var(--tx);margin-bottom:2px}
+.msh .ms{font-size:12px;color:var(--mu);margin-bottom:14px}
+.mdi{background:var(--sf);border-radius:12px;padding:11px 14px;margin-bottom:13px;display:flex;align-items:center;gap:10px}
+.md-sig{font-size:11px;font-weight:800;padding:6px 9px;border-radius:9px}
+.md-nm{font-size:13px;font-weight:700;color:var(--tx)}
+.sopts{display:flex;flex-direction:column;gap:7px;margin-bottom:11px}
+.sopt{width:100%;padding:12px 14px;background:var(--sf);border:2px solid transparent;border-radius:12px;font-size:13px;color:var(--tx);cursor:pointer;text-align:left;transition:all .2s;font-weight:500}
+.sopt.sel{border-color:var(--blue);background:rgba(21,83,180,.05);font-weight:700}
+.sinp{width:100%;padding:12px 14px;background:var(--sf);border:2px solid transparent;border-radius:12px;font-size:13px;color:var(--tx);outline:none;resize:none;height:76px;transition:border-color .2s;margin-bottom:10px;font-family:'Inter',sans-serif}
+.sinp:focus{border-color:var(--blue)}
+.macts{display:flex;gap:9px}
+.mc2{flex:1;padding:13px;background:var(--sf);border:none;border-radius:12px;font-size:14px;font-weight:700;color:var(--mu);cursor:pointer}
+.ms2{flex:2;padding:13px;background:var(--blue);border:none;border-radius:12px;font-size:14px;font-weight:800;color:#fff;cursor:pointer}
+
+
+/* PERFIL */
+#perfil{background:var(--sf)}
+.pf-hero{background:linear-gradient(160deg,#0d3d8a,#1553B4 60%,#1a68d4);padding:28px 22px 36px;border-radius:0 0 36px 36px;display:flex;flex-direction:column;align-items:center;position:relative;flex-shrink:0}
+.pf-topbar{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.pf-topbar-title{font-size:16px;font-weight:800;color:#fff}
+.pf-edit-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 14px;font-size:12px;font-weight:700;color:#fff;cursor:pointer}
+.pf-avatar{width:86px;height:86px;border-radius:50%;background:linear-gradient(135deg,#7ec8ff,#1a68d4);border:4px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;font-size:36px;margin-bottom:14px;box-shadow:0 8px 28px rgba(0,0,0,.25);position:relative}
+.pf-avatar-badge{position:absolute;bottom:2px;right:2px;width:22px;height:22px;background:#27ae60;border-radius:50%;border:2.5px solid #fff;display:flex;align-items:center;justify-content:center;font-size:10px}
+.pf-nome{font-size:22px;font-weight:900;color:#fff;letter-spacing:-.4px;margin-bottom:3px}
+.pf-cargo{font-size:13px;color:rgba(255,255,255,.7);margin-bottom:14px}
+.pf-chips{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
+.pf-chip{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 13px;font-size:11px;font-weight:600;color:#fff}
+.pf-stats{display:flex;gap:10px;margin:18px 16px 0;flex-shrink:0}
+.pf-stat{flex:1;background:#fff;border-radius:16px;padding:14px 10px;text-align:center;box-shadow:var(--sh)}
+.pf-stat-n{font-size:22px;font-weight:900;color:var(--blue)}
+.pf-stat-l{font-size:10px;font-weight:700;color:var(--mu);margin-top:2px;line-height:1.3}
+.pf-section{margin:16px 16px 0}
+.pf-sec-title{font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;padding-left:2px}
+.pf-card{background:#fff;border-radius:16px;box-shadow:var(--sh);overflow:hidden;margin-bottom:4px}
+.pf-row{display:flex;align-items:center;gap:13px;padding:14px 16px;border-bottom:1px solid rgba(21,83,180,.05);cursor:pointer;transition:background .15s}
+.pf-row:last-child{border-bottom:none}
+.pf-row:active{background:rgba(21,83,180,.04)}
+.pf-row-ic{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.pf-row-txt{flex:1}
+.pf-row-lbl{font-size:14px;font-weight:700;color:var(--tx)}
+.pf-row-sub{font-size:11px;color:var(--mu);margin-top:1px}
+.pf-row-arr{font-size:15px;color:#ccc}
+.pf-row-val{font-size:12px;font-weight:700;color:var(--blue);background:rgba(21,83,180,.08);border-radius:8px;padding:3px 9px}
+.pf-logout{margin:18px 16px 30px;width:calc(100% - 32px);padding:15px;background:#fff;border:2px solid #fde8e6;border-radius:16px;color:#e74c3c;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 2px 10px rgba(231,76,60,.08);transition:all .2s}
+.pf-logout:active{background:#fde8e6;transform:scale(.97)}
+.hhl-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7ec8ff,#1553B4);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;border:2px solid rgba(255,255,255,.4);box-shadow:0 2px 10px rgba(0,0,0,.2);flex-shrink:0}
+.logout-overlay{display:none;position:fixed;inset:0;background:rgba(10,37,64,.55);z-index:300;align-items:flex-end;justify-content:center;backdrop-filter:blur(5px)}
+.logout-overlay.show{display:flex}
+.logout-sheet{background:#fff;border-radius:26px 26px 0 0;padding:24px 22px 40px;width:100%;max-width:390px;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1)}
+.ls-icon{font-size:44px;text-align:center;margin-bottom:10px}
+.ls-title{font-size:20px;font-weight:900;color:var(--tx);text-align:center;margin-bottom:4px}
+.ls-sub{font-size:13px;color:var(--mu);text-align:center;margin-bottom:22px}
+.ls-btns{display:flex;gap:10px}
+.ls-cancel{flex:1;padding:14px;background:var(--sf);border:none;border-radius:14px;font-size:14px;font-weight:700;color:var(--mu);cursor:pointer}
+.ls-confirm{flex:1;padding:14px;background:#e74c3c;border:none;border-radius:14px;font-size:14px;font-weight:800;color:#fff;cursor:pointer}
+
+/* EDITAR PERFIL MODAL */
+.edit-overlay{display:none;position:fixed;inset:0;background:rgba(10,37,64,.6);z-index:400;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px)}
+.edit-overlay.open{display:flex}
+.edit-sheet{background:#fff;border-radius:26px 26px 0 0;padding:20px 22px 40px;width:100%;max-width:390px;animation:slideUp .35s cubic-bezier(.34,1.56,.64,1);max-height:88vh;overflow-y:auto}
+.edit-photo-area{display:flex;flex-direction:column;align-items:center;margin-bottom:20px;gap:12px}
+.edit-avatar-preview{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#7ec8ff,#1553B4);border:4px solid rgba(21,83,180,.2);display:flex;align-items:center;justify-content:center;font-size:38px;overflow:hidden;flex-shrink:0;cursor:pointer;position:relative}
+.edit-avatar-preview img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.edit-photo-btns{display:flex;gap:8px}
+.ep-btn{padding:9px 16px;border-radius:12px;font-size:12px;font-weight:700;border:none;cursor:pointer}
+.ep-btn-photo{background:var(--blue);color:#fff}
+.ep-btn-remove{background:rgba(231,76,60,.1);color:#e74c3c}
+.edit-fg{margin-bottom:13px}
+.edit-fg label{display:block;font-size:12px;font-weight:700;color:#1a2a4a;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.edit-fg input{width:100%;padding:12px 14px;background:#f0f4fb;border:2px solid transparent;border-radius:12px;font-size:14px;color:#1a2a4a;outline:none;transition:border-color .2s;font-family:'Inter',sans-serif}
+.edit-fg input:focus{border-color:var(--blue);background:#fff}
+.edit-actions{display:flex;gap:9px;margin-top:6px}
+.edit-cancel{flex:1;padding:14px;background:#f0f4fb;border:none;border-radius:13px;font-size:14px;font-weight:700;color:#6b7c99;cursor:pointer}
+.edit-save{flex:2;padding:14px;background:var(--blue);border:none;border-radius:13px;font-size:14px;font-weight:800;color:#fff;cursor:pointer;box-shadow:0 6px 18px rgba(21,83,180,.3)}
+
+/* AVISO IMEDIATO */
+.aviso-tipo{padding:7px 12px;border-radius:20px;border:2px solid transparent;background:#f0f4fb;font-size:11px;font-weight:700;color:#6b7c99;cursor:pointer;transition:all .2s;white-space:nowrap}
+.aviso-tipo.on{background:rgba(231,76,60,.1);border-color:#e74c3c;color:#e74c3c}
+
+/* NOTIFICAÇÃO FLUTUANTE */
+.notif-float{position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-20px);background:#fff;border-radius:18px;padding:14px 16px 14px 14px;width:340px;max-width:90vw;box-shadow:0 8px 36px rgba(10,37,64,.22);z-index:500;display:none;border-left:5px solid #e74c3c;animation:notifIn .4s cubic-bezier(.34,1.56,.64,1) forwards}
+.notif-float.show{display:flex;gap:12px;align-items:flex-start}
+@keyframes notifIn{from{opacity:0;transform:translateX(-50%) translateY(-30px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.notif-ic{font-size:28px;flex-shrink:0}
+.notif-content{flex:1}
+.notif-title{font-size:13px;font-weight:800;color:#1a2a4a;margin-bottom:2px}
+.notif-body{font-size:12px;color:#6b7c99;line-height:1.4}
+.notif-time{font-size:10px;color:#c0c9da;margin-top:4px}
+.notif-close{background:none;border:none;font-size:16px;color:#c0c9da;cursor:pointer;padding:0;flex-shrink:0;line-height:1}
+
+/* SINO BADGE */
+.bell-badge{position:absolute;top:-3px;right:-3px;background:#e74c3c;color:#fff;font-size:9px;font-weight:900;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
+
+/* AVISO no mural (dinamico) */
+.av-card.imediato{border-left-color:#e74c3c;animation:urgentPulse 2s 3}
+
+/* ===== ALUNO — TELAS ===== */
+#aluno-login,#aluno-cadastro{background:linear-gradient(170deg,#006e38,#27ae60 55%,#1e8449);display:flex;flex-direction:column}
+#aluno-login::before,#aluno-cadastro::before{content:'';position:absolute;width:300px;height:300px;background:rgba(255,255,255,.06);border-radius:50%;top:-80px;right:-60px;pointer-events:none}
+.at{padding:28px 26px 20px;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;flex-shrink:0}
+.at-card{background:#fff;border-radius:18px;padding:12px 16px 14px;width:200px;text-align:center;box-shadow:0 14px 40px rgba(0,0,0,.22);margin-bottom:18px}
+.at-inn{background:#1e8449;border-radius:10px;padding:10px 16px 9px;margin-bottom:8px}
+.at-brand{font-size:26px;font-weight:900;color:#fff;letter-spacing:-1px}
+.at-brand span{color:#a8f0c6}
+.at-sub{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px}
+.asheet{background:#f0f4fb;border-radius:30px 30px 0 0;padding:24px 22px 36px;flex:1;z-index:2;overflow-y:auto}
+.asheet h2{font-size:20px;font-weight:800;color:#1a2a4a;margin-bottom:2px}
+.als{font-size:13px;color:var(--mu);margin-bottom:18px}
+.afg{margin-bottom:13px}
+.afg label{display:block;font-size:12px;font-weight:700;color:#1a2a4a;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.afg input,.afg select{width:100%;padding:13px 14px;background:#fff;border:2px solid transparent;border-radius:13px;font-size:14px;color:var(--tx);outline:none;box-shadow:0 2px 10px rgba(0,0,0,.06);transition:border-color .2s;font-family:'Inter',sans-serif}
+.afg input:focus,.afg select:focus{border-color:#27ae60}
+.btn-gn{width:100%;padding:15px;background:#27ae60;color:#fff;font-size:15px;font-weight:800;border:none;border-radius:13px;cursor:pointer;margin-top:4px;box-shadow:0 8px 22px rgba(39,174,96,.35);transition:transform .15s}
+.btn-gn:active{transform:scale(.97)}
+.a-link{text-align:center;font-size:13px;color:var(--mu);margin-top:14px}
+.a-link a{color:#27ae60;text-decoration:none;font-weight:700;cursor:pointer}
+
+/* HOME ALUNO */
+#aluno-home{background:#f0f4fb}
+.ah-header{background:linear-gradient(160deg,#1e8449,#27ae60 60%,#2ecc71);padding:0;border-radius:0 0 28px 28px;flex-shrink:0}
+.ah-logo{background:#fff;margin:14px 14px 0;border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 28px rgba(0,0,0,.15)}
+.ah-badge{background:#1e8449;border-radius:9px;padding:7px 11px;text-align:center}
+.ah-ete{font-size:20px;font-weight:900;letter-spacing:3px;line-height:1;margin-bottom:2px}
+.ah-ete .e1{color:#e74c3c}.ah-ete .t{color:#f5a623}.ah-ete .e2{color:#2ecc71}
+.ah-sub{color:rgba(255,255,255,.85);font-size:6px;letter-spacing:2px;text-transform:uppercase;font-weight:700}
+.ah-r{flex:1}
+.ah-nome{font-size:13px;font-weight:800;color:#1a2a4a}
+.ah-turma{font-size:11px;color:var(--mu);margin-top:1px}
+.ah-greet{padding:14px 18px 18px}
+.ah-hi{font-size:22px;font-weight:900;color:#fff;letter-spacing:-.3px}
+.ah-date{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
+.ah-chips{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+.ah-chip{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);border-radius:16px;padding:4px 11px;font-size:11px;font-weight:600;color:#fff}
+
+/* PRÓXIMA AULA ALUNO */
+.prox-card{margin:12px 14px 0;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.12)}
+.prox-now{background:linear-gradient(135deg,#1e8449,#27ae60)}
+.prox-soon{background:linear-gradient(135deg,#b34400,#FF6B35);animation:urgentPulse 2s infinite}
+.prox-next{background:linear-gradient(135deg,#006e38,#27ae60)}
+.prox-inner{padding:14px 16px 12px}
+.prox-lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:rgba(255,255,255,.75)}
+.prox-disc{font-size:16px;font-weight:900;color:#fff;margin:6px 0 3px;line-height:1.2}
+.prox-sala{font-size:12px;font-weight:700;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:5px;margin-bottom:8px}
+.prox-bar{background:rgba(255,255,255,.25);border-radius:4px;height:4px;margin-bottom:10px;overflow:hidden}
+.prox-bar-fill{height:100%;border-radius:4px;background:rgba(255,255,255,.9);transition:width .5s}
+.prox-footer{display:flex;justify-content:space-between;align-items:center}
+.prox-prof{font-size:11px;font-weight:600;color:rgba(255,255,255,.8)}
+.prox-timer{font-size:20px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums}
+.prox-timer-lbl{font-size:9px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.6px;text-align:right;margin-top:1px}
+
+/* GRADE ALUNO */
+.ag-section{margin:14px 14px 0}
+.ag-sec-title{font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:9px;padding-left:2px}
+.ag-day-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:10px;padding-bottom:2px}
+.ag-day-tabs::-webkit-scrollbar{display:none}
+.ag-dtab{flex-shrink:0;padding:7px 12px;border-radius:11px;background:#fff;border:none;cursor:pointer;font-size:10px;font-weight:700;color:var(--mu);box-shadow:var(--sh);transition:all .2s;text-align:center}
+.ag-dtab.on{background:#27ae60;color:#fff}
+.ag-dtab.td{color:#27ae60}
+.ag-aula-card{background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:8px;box-shadow:var(--sh);display:flex;align-items:center;gap:12px;border-left:4px solid #dde3ef}
+.ag-aula-card.now{border-left-color:#27ae60;background:rgba(39,174,96,.04)}
+.ag-aula-card.done{opacity:.5}
+.ag-num{width:28px;height:28px;border-radius:9px;background:#f0f4fb;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--mu);flex-shrink:0}
+.ag-num.now{background:rgba(39,174,96,.15);color:#27ae60}
+.ag-info{flex:1}
+.ag-disc{font-size:13px;font-weight:800;color:var(--tx);line-height:1.2}
+.ag-meta{font-size:11px;color:var(--mu);margin-top:2px}
+.ag-hora{font-size:11px;font-weight:700;color:var(--mu);white-space:nowrap;text-align:right}
+.ag-hora.now{color:#27ae60}
+.ag-now-badge{font-size:9px;font-weight:800;background:#27ae60;color:#fff;border-radius:5px;padding:2px 6px;margin-left:4px}
+
+/* AVISOS ALUNO */
+.aa-card{background:#fff;border-radius:14px;padding:13px 14px;margin-bottom:8px;box-shadow:var(--sh);display:flex;gap:11px;border-left:4px solid #e74c3c}
+.aa-ic{width:38px;height:38px;border-radius:11px;background:rgba(231,76,60,.1);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.aa-ttl{font-size:13px;font-weight:800;color:var(--tx)}
+.aa-body{font-size:12px;color:var(--mu);margin-top:2px;line-height:1.4}
+.aa-time{font-size:10px;color:#c0c9da;margin-top:4px}
+.aa-new{border-left-color:#e74c3c}
+.aa-ok{border-left-color:#27ae60}
+.aa-warn{border-left-color:#F5A623}
+
+/* NAV ALUNO */
+.anav{display:none;position:sticky;bottom:0;background:#fff;padding:8px 8px 16px;border-top:1px solid rgba(39,174,96,.1);justify-content:space-around;box-shadow:0 -4px 20px rgba(39,174,96,.09);flex-shrink:0}
+.anav.vis{display:flex}
+.anb{display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:none;cursor:pointer;padding:5px 10px;border-radius:12px;transition:background .2s}
+.anb .ani{font-size:20px}
+.anb .anl{font-size:10px;font-weight:700;color:var(--mu);letter-spacing:.2px}
+.anb.on .anl{color:#27ae60}
+.anb.on{background:rgba(39,174,96,.1)}
+
+/* PERFIL ALUNO */
+#aluno-perfil{background:#f0f4fb}
+.ap-hero{background:linear-gradient(160deg,#1e8449,#27ae60 60%,#2ecc71);padding:24px 20px 32px;border-radius:0 0 32px 32px;display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.ap-avatar{width:82px;height:82px;border-radius:50%;background:linear-gradient(135deg,#a8f0c6,#27ae60);border:4px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:12px;overflow:hidden;position:relative}
+.ap-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.ap-nome{font-size:20px;font-weight:900;color:#fff;margin-bottom:3px}
+.ap-turma{font-size:13px;color:rgba(255,255,255,.75)}
+.ap-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.ap-chip{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);border-radius:16px;padding:4px 12px;font-size:11px;font-weight:600;color:#fff}
+.ap-section{margin:14px 14px 0}
+.ap-sec-title{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-left:2px}
+.ap-card{background:#fff;border-radius:14px;box-shadow:var(--sh);overflow:hidden;margin-bottom:4px}
+.ap-row{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid rgba(39,174,96,.06)}
+.ap-row:last-child{border-bottom:none}
+.ap-row-ic{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.ap-row-lbl{font-size:13px;font-weight:700;color:var(--tx)}
+.ap-row-sub{font-size:11px;color:var(--mu);margin-top:1px}
+
+@media(max-width:420px){.phone{width:100vw;border-radius:0}}
+</style>
+</head>
+<body>
+<div class="phone">
+
+<div class="sbar">
+  <span id="sb-t">19:07</span>
+  <div class="sb-r"><span>4G</span><div class="bat"><div class="bf"></div></div></div>
+</div>
+
+<!-- SPLASH -->
+<div class="scr on" id="splash">
+  <div class="sp-card">
+    <div class="sp-inn">
+      <div class="sp-ete"><span class="e1">E</span><span class="t">T</span><span class="e2">E</span></div>
+      <div class="sp-esub">Escola Técnica Estadual</div>
+    </div>
+    <div class="sp-nm">Luiz Alves Lacerda</div>
+  </div>
+  <div class="sp-brand">tec<span>Edu</span></div>
+  <div class="sp-sub">Plataforma Escolar</div>
+  <div class="sp-tag">Tecnologia educacional<br>para professores e alunos</div>
+  <button class="btn-w" onclick="go('login')" style="margin-top:28px">👩‍🏫 Entrar como Professor</button>
+  <button class="btn-o" onclick="go('aluno-login')" style="margin-top:10px">🎓 Entrar como Aluno</button>
+  <button class="btn-o" onclick="go('aluno-cadastro')" style="margin-top:8px;background:rgba(39,174,96,.18);border-color:rgba(39,174,96,.4)">✏️ Cadastrar-se como Aluno</button>
+</div>
+
+<!-- LOGIN PROFESSOR -->
+<div class="scr" id="login">
+  <div class="lt">
+    <div class="le-card">
+      <div class="le-inn">
+        <div class="le-ete"><span class="e1">E</span><span class="t">T</span><span class="e2">E</span></div>
+        <div class="le-sub">Escola Técnica Estadual</div>
+      </div>
+      <div class="le-nm">Luiz Alves Lacerda</div>
+    </div>
+    <div class="lb">tec<span>Edu</span></div>
+    <div class="lb-s">Plataforma do Professor</div>
+  </div>
+  <div class="lsheet">
+    <h2>Entrar na conta</h2>
+    <p class="ls">Acesse sua plataforma educacional</p>
+    <div class="fg">
+      <label>E-mail institucional</label>
+      <input type="email" placeholder="graziela@ete.edu.br" value="graziela@ete.edu.br"/>
+    </div>
+    <div class="fg">
+      <label>Senha</label>
+      <input type="password" placeholder="••••••••"/>
+    </div>
+    <button class="btn-bl" onclick="goHome()">Entrar</button>
+    <p class="fgt">Esqueceu a senha? <a href="#">Recuperar acesso</a></p>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="scr" id="home">
+  <div class="hh">
+    <div class="hh-logo">
+      <div class="hhl-badge">
+        <div class="hhl-ete"><span class="e1">E</span><span class="t">T</span><span class="e2">E</span></div>
+        <div class="hhl-sub">Escola Técnica Estadual</div>
+      </div>
+      <div class="hhl-r">
+        <div class="hhl-sch">Luiz Alves Lacerda</div>
+        <div class="hhl-cur">Desenvolvimento de Sistemas</div>
+        <div class="hhl-clk">🕐 <span id="h-clk">00:00:00</span></div>
+      </div>
+      <div class="hhl-avatar" onclick="gos('perfil')" title="Meu perfil">👩‍🏫</div>
+    </div>
+    <div class="hh-greet">
+      <div class="hg-name" id="h-greet">Boa noite, Professora!</div>
+      <div id="h-date" style="font-size:12px;color:rgba(255,255,255,.65);margin-top:3px">Carregando data...</div>
+      <div class="hg-chips" style="margin-top:10px">
+        <span class="chip" id="chip-curso">🎓 TDS / Logística</span>
+        <span class="chip" id="chip-turma">👥 I TDS B</span>
+      </div>
+      <div style="margin-top:12px">
+        <select onchange="trocarTurma(this.value)" id="sel-turma" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:9px 14px;font-size:12px;font-weight:700;color:#fff;outline:none;width:100%;cursor:pointer">
+          <optgroup label="📐 Desenvolvimento de Sistemas">
+            <option value="I TDS A" style="color:#000;background:#fff">I TDS A — 1º Módulo · Sala 09</option>
+            <option value="I TDS B" style="color:#000;background:#fff">I TDS B — 1º Módulo · Sala 10</option>
+            <option value="III TDS U" style="color:#000;background:#fff">III TDS U — 3º Módulo · Sala 11</option>
+          </optgroup>
+          <optgroup label="🚚 Logística">
+            <option value="I LOG A" style="color:#000;background:#fff">I LOG A — 1º Módulo · Sala 01</option>
+            <option value="I LOG B" style="color:#000;background:#fff">I LOG B — 1º Módulo · Sala 03</option>
+            <option value="I LOG C" style="color:#000;background:#fff">I LOG C — 1º Módulo · Sala 04</option>
+            <option value="III LOG A" style="color:#000;background:#fff">III LOG A — 3º Módulo · Sala 05</option>
+            <option value="III LOG B" style="color:#000;background:#fff">III LOG B — 3º Módulo · Sala 07</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CARD PRÓXIMA SALA (NOVO) ===== -->
+  <div id="proxima-sala-card">
+    <div class="psc-inner" id="psc-inner">
+      <div class="psc-row1">
+        <span class="psc-label" id="psc-label">PRÓXIMA AULA</span>
+        <span class="psc-badge-time" id="psc-badge-time">⏰ --</span>
+      </div>
+      <div class="psc-disc" id="psc-disc">Carregando...</div>
+      <div class="psc-sala" id="psc-sala"><span class="psc-sala-ico">🏫</span> Sala --</div>
+      <div class="psc-prog-wrap"><div class="psc-prog-bar" id="psc-prog-bar" style="width:0%"></div></div>
+      <div class="psc-footer">
+        <div>
+          <div class="psc-prof" id="psc-prof">Prof. --</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:2px" id="psc-turma">Turma --</div>
+        </div>
+        <div style="text-align:right">
+          <div class="psc-timer" id="psc-timer">--:--</div>
+          <div class="psc-timer-lbl" id="psc-timer-lbl">tempo restante</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert-bar">
+    <span class="ab-badge">⚠️ Aviso Importante</span>
+    <span class="ab-txt">Entrega do projeto final até 25/04! 💻</span>
+    <span class="ab-lnk" onclick="gos('avisos')">Ver todos ›</span>
+  </div>
+
+  <div class="mcards">
+    <button class="mc" onclick="gos('avisos')">
+      <div class="mc-top">
+        <div class="mc-ic ic-bl">📢</div>
+        <div><div class="mc-ttl">Mural de Avisos</div><div class="mc-sub">Comunicados em tempo real</div></div>
+      </div>
+      <div class="mc-ft"><span class="mc-tag tg-bl">3 novas</span><span class="mc-arr">›</span></div>
+    </button>
+    <button class="mc" onclick="gos('horarios')">
+      <div class="mc-top">
+        <div class="mc-ic ic-gn">📖</div>
+        <div><div class="mc-ttl">Próxima Aula</div><div class="mc-sub">Veja o que vai rolar na aula seguinte</div></div>
+      </div>
+      <div class="mc-ft"><span class="mc-tag tg-gn" id="next-tag">🕐 Hoje, 18:40</span><span class="mc-arr">›</span></div>
+    </button>
+    <button class="mc" onclick="gos('parei')">
+      <div class="mc-top">
+        <div class="mc-ic ic-og">📍</div>
+        <div><div class="mc-ttl">Andamento das Aulas</div><div class="mc-sub">Acompanhe onde paramos</div></div>
+      </div>
+      <div class="mc-ft"><span class="mc-tag tg-og" id="parei-tag">📌 DCU · Slide 12</span><span class="mc-arr">›</span></div>
+    </button>
+    <button class="mc" onclick="gos('disciplinas')">
+      <div class="mc-top">
+        <div class="mc-ic ic-pp">📚</div>
+        <div><div class="mc-ttl">Disciplinas</div><div class="mc-sub">Grade e módulos do curso</div></div>
+      </div>
+      <div class="mc-ft"><span class="mc-tag tg-pp">3 módulos</span><span class="mc-arr">›</span></div>
+    </button>
+  </div>
+
+  <div class="sec-ttl">Acesso Rápido</div>
+  <div class="qrow">
+    <button class="qb" onclick="gos('avisos')">
+      <div class="qb-ic qi-re">✉️</div><div class="qb-lbl">Mensagens</div>
+    </button>
+    <button class="qb" onclick="gos('horarios')">
+      <div class="qb-ic qi-bl">📅</div><div class="qb-lbl">Calendário</div>
+    </button>
+    <button class="qb" onclick="gos('horarios')">
+      <div class="qb-ic qi-gn">✅</div><div class="qb-lbl">Presença</div>
+    </button>
+    <button class="qb" onclick="gos('parei')">
+      <div class="qb-ic qi-og">☁️</div><div class="qb-lbl">Enviar Atividade</div>
+    </button>
+    <button class="qb" onclick="gos('disciplinas')">
+      <div class="qb-ic qi-nv">👤</div><div class="qb-lbl">Perfil</div>
+    </button>
+  </div>
+  <div style="height:20px"></div>
+</div>
+
+<!-- HORÁRIOS -->
+<div class="scr" id="horarios">
+  <div class="phdr"><button class="bbtn" onclick="goHome()">←</button><h2 id="h-turma-title">Grade Semanal · I TDS B</h2></div>
+  <div class="dtabs" id="dtabs"></div>
+  <div class="gwrap">
+    <div class="sbadge" id="sbadge">
+      <span style="font-size:18px">🏫</span>
+      <div><div class="sbn" id="sbn">Sala 10 · Desenvolvimento de Sistemas</div><div class="sbs" id="sbsub">5 aulas noturnas · 18:40–22:00</div></div>
+    </div>
+    <table class="gtbl">
+      <thead><tr><th>Horário</th><th>Aula</th><th>Disciplina</th><th>Prof.</th><th>Status</th></tr></thead>
+      <tbody id="gtbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- DISCIPLINAS -->
+<div class="scr" id="disciplinas">
+  <div class="phdr"><button class="bbtn" onclick="goHome()">←</button><h2>Disciplinas &amp; Módulos</h2></div>
+  <div class="dwrap">
+    <div class="cbanner" id="disc-banner">
+      <span class="cb-ic" id="disc-ic">💻</span>
+      <div><div class="cb-ti" id="disc-ti">Desenvolvimento de Sistemas</div><div class="cb-su" id="disc-su">ETE Luiz Alves Lacerda · I TDS B · Sala 10</div></div>
+      <span class="cb-bg">3 Módulos</span>
+    </div>
+    <div id="disc-body"></div>
+  </div>
+</div>
+
+<!-- ONDE PAREI -->
+<div class="scr" id="parei">
+  <div class="phdr"><button class="bbtn" onclick="goHome()">←</button><h2>Andamento das Aulas</h2></div>
+  <div class="pwrap">
+    <div class="pintro">
+      <h3>📍 Onde Paramos?</h3>
+      <p>Registre e consulte onde cada professor parou. Simples e rápido — nunca perca o fio da aula!</p>
+    </div>
+    <div id="plist"></div>
+  </div>
+</div>
+
+<!-- AVISOS -->
+<div class="scr" id="avisos">
+  <div class="phdr">
+    <button class="bbtn" onclick="goHome()">←</button>
+    <h2>Mural de Avisos</h2>
+    <button onclick="gos('perfil')" style="background:rgba(255,255,255,.15);border:none;border-radius:10px;padding:6px 12px;font-size:12px;font-weight:700;color:#fff;cursor:pointer">+ Novo</button>
+  </div>
+  <div class="av-list" id="av-list-dyn" style="padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+  </div>
+</div>
+
+<!-- PERFIL -->
+<div class="scr" id="perfil">
+  <div class="pf-hero">
+    <div class="pf-topbar">
+      <button class="bbtn" onclick="goHome()" style="background:rgba(255,255,255,.15);border:none;border-radius:10px;width:34px;height:34px;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">←</button>
+      <span class="pf-topbar-title">Meu Perfil</span>
+      <button class="pf-edit-btn" onclick="openEditPerfil()">✏️ Editar</button>
+    </div>
+    <div class="pf-avatar" onclick="document.getElementById('file-prof-foto-direto').click()" title="Clique para trocar foto" style="cursor:pointer">
+      <img id="pf-foto" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%"/>
+      <span id="pf-emoji">👩‍🏫</span>
+      <div class="pf-avatar-badge">✓</div>
+      <div style="position:absolute;bottom:-2px;right:-2px;width:26px;height:26px;background:#1553B4;border-radius:50%;border:2.5px solid #fff;display:flex;align-items:center;justify-content:center;font-size:12px">📷</div>
+    </div>
+    <input type="file" id="file-prof-foto-direto" accept="image/*" style="display:none" onchange="trocarFotoProf(this)"/>
+    <div class="pf-nome" id="pf-nome">Profa. Graziela</div>
+    <div class="pf-cargo" id="pf-cargo">Professora · ETE Luiz Alves Lacerda</div>
+    <div class="pf-chips">
+      <span class="pf-chip" id="pf-chip-curso">💻 Desenvolvimento de Sistemas</span>
+      <span class="pf-chip" id="pf-chip-turma">👥 I TDS B</span>
+      <span class="pf-chip">🌙 Noturno</span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="pf-stats">
+    <div class="pf-stat"><div class="pf-stat-n" id="pf-stat-disc">5</div><div class="pf-stat-l">Disciplinas ativas</div></div>
+    <div class="pf-stat"><div class="pf-stat-n" id="pf-stat-reg">0</div><div class="pf-stat-l">Registros feitos</div></div>
+    <div class="pf-stat"><div class="pf-stat-n" id="pf-stat-mod">1º</div><div class="pf-stat-l">Módulo atual</div></div>
+  </div>
+
+  <!-- INFORMAÇÕES -->
+  <div class="pf-section">
+    <div class="pf-sec-title">Informações</div>
+    <div class="pf-card">
+      <div class="pf-row"><div class="pf-row-ic" style="background:rgba(21,83,180,.1)">📧</div><div class="pf-row-txt"><div class="pf-row-lbl">E-mail institucional</div><div class="pf-row-sub" id="pf-email">graziela@ete.edu.br</div></div><span class="pf-row-arr">›</span></div>
+      <div class="pf-row"><div class="pf-row-ic" style="background:rgba(39,174,96,.1)">🏫</div><div class="pf-row-txt"><div class="pf-row-lbl">Escola</div><div class="pf-row-sub">ETE Luiz Alves Lacerda</div></div></div>
+      <div class="pf-row"><div class="pf-row-ic" style="background:rgba(245,166,35,.12)">📚</div><div class="pf-row-txt"><div class="pf-row-lbl">Curso</div><div class="pf-row-sub" id="pf-curso-sub">Desenvolvimento de Sistemas · I TDS B</div></div></div>
+      <div class="pf-row"><div class="pf-row-ic" style="background:rgba(142,68,173,.1)">🕐</div><div class="pf-row-txt"><div class="pf-row-lbl">Turno</div><div class="pf-row-sub">Noturno · 18:40 – 22:00</div></div></div>
+    </div>
+  </div>
+
+  <!-- AVISOS IMEDIATOS -->
+  <div class="pf-section">
+    <div class="pf-sec-title">📣 Aviso Imediato</div>
+    <div style="background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 16px rgba(21,83,180,.10)">
+      <div style="font-size:12px;color:#6b7c99;margin-bottom:10px;line-height:1.5">Envie um aviso urgente para todas as turmas — aparece como notificação na tela imediatamente.</div>
+      <div style="margin-bottom:10px">
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px" id="aviso-tipos">
+          <button class="aviso-tipo on" onclick="selTipoAviso(this,'🔁')">🔁 Troca de sala</button>
+          <button class="aviso-tipo" onclick="selTipoAviso(this,'⚠️')">⚠️ Aviso geral</button>
+          <button class="aviso-tipo" onclick="selTipoAviso(this,'❌')">❌ Aula cancelada</button>
+          <button class="aviso-tipo" onclick="selTipoAviso(this,'📋')">📋 Tarefa/entrega</button>
+          <button class="aviso-tipo" onclick="selTipoAviso(this,'🕐')">🕐 Atraso</button>
+        </div>
+        <textarea id="aviso-txt" placeholder="Ex: Aula de LPC foi transferida para Sala 03 hoje..." style="width:100%;padding:12px 14px;background:#f0f4fb;border:2px solid transparent;border-radius:12px;font-size:13px;color:#1a2a4a;outline:none;resize:none;height:72px;transition:border-color .2s;font-family:'Inter',sans-serif" onfocus="this.style.borderColor='#1553B4'" onblur="this.style.borderColor='transparent'"></textarea>
+        <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+          <select id="aviso-dest" style="flex:1;padding:10px 12px;background:#f0f4fb;border:2px solid transparent;border-radius:12px;font-size:12px;font-weight:700;color:#1a2a4a;outline:none">
+            <option value="todas">📢 Todas as turmas</option>
+            <option value="I TDS A">I TDS A</option>
+            <option value="I TDS B">I TDS B</option>
+            <option value="III TDS U">III TDS U</option>
+            <option value="I LOG A">I LOG A</option>
+            <option value="I LOG B">I LOG B</option>
+            <option value="I LOG C">I LOG C</option>
+            <option value="III LOG A">III LOG A</option>
+            <option value="III LOG B">III LOG B</option>
+          </select>
+          <button onclick="enviarAvisoImediato()" style="padding:10px 18px;background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;box-shadow:0 4px 14px rgba(231,76,60,.35)">📣 Enviar agora</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREFERÊNCIAS -->
+  <div class="pf-section">
+    <div class="pf-sec-title">Preferências</div>
+    <div class="pf-card">
+      <div class="pf-row" onclick="toggleNotif(this)">
+        <div class="pf-row-ic" style="background:rgba(21,83,180,.1)">🔔</div>
+        <div class="pf-row-txt"><div class="pf-row-lbl">Alertas de aula</div><div class="pf-row-sub">Notificar 10 min antes</div></div>
+        <span class="pf-row-val" id="notif-toggle">Ativo</span>
+      </div>
+      <div class="pf-row">
+        <div class="pf-row-ic" style="background:rgba(39,174,96,.1)">📍</div>
+        <div class="pf-row-txt"><div class="pf-row-lbl">Andamento automático</div><div class="pf-row-sub">Lembrar de registrar ao fim da aula</div></div>
+        <span class="pf-row-val">Ativo</span>
+      </div>
+      <div class="pf-row" onclick="alert('Em breve: modo escuro!')">
+        <div class="pf-row-ic" style="background:rgba(44,62,80,.1)">🌙</div>
+        <div class="pf-row-txt"><div class="pf-row-lbl">Modo escuro</div><div class="pf-row-sub">Ideal para aulas noturnas</div></div>
+        <span class="pf-row-val" style="color:var(--mu);background:rgba(107,124,153,.1)">Em breve</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOBRE -->
+  <div class="pf-section">
+    <div class="pf-sec-title">Sobre o TecEdu</div>
+    <div class="pf-card">
+      <div class="pf-row"><div class="pf-row-ic" style="background:rgba(21,83,180,.1)">ℹ️</div><div class="pf-row-txt"><div class="pf-row-lbl">Versão do app</div><div class="pf-row-sub">TecEdu v10.0</div></div><span class="pf-row-val">v10.0</span></div>
+      <div class="pf-row"><div class="pf-row-ic" style="background:rgba(245,166,35,.12)">🏫</div><div class="pf-row-txt"><div class="pf-row-lbl">Desenvolvido para</div><div class="pf-row-sub">ETE Luiz Alves Lacerda</div></div></div>
+    </div>
+  </div>
+
+  <button class="pf-logout" onclick="sairParaSplash()">🚪 Sair do aplicativo</button>
+  <div style="height:30px"></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TELAS DO ALUNO                                              -->
+<!-- ============================================================ -->
+
+<!-- CADASTRO ALUNO -->
+<div class="scr" id="aluno-cadastro">
+  <div class="at">
+    <div class="at-card">
+      <div class="at-inn">
+        <div class="ah-ete"><span class="e1">E</span><span class="t">T</span><span class="e2">E</span></div>
+        <div style="color:rgba(255,255,255,.82);font-size:7px;letter-spacing:2.5px;text-transform:uppercase;font-weight:700">Escola Técnica Estadual</div>
+      </div>
+      <div style="font-size:10px;font-weight:800;color:#1e8449;letter-spacing:.7px;text-transform:uppercase">Luiz Alves Lacerda</div>
+    </div>
+    <div class="at-brand">tec<span>Edu</span></div>
+    <div class="at-sub">Cadastro de Aluno</div>
+  </div>
+  <div class="asheet">
+    <h2>🎓 Criar sua conta</h2>
+    <p class="als">Preencha seus dados para acessar horários e avisos da sua turma</p>
+
+    <div class="afg"><label>Nome completo</label><input type="text" id="cad-nome" placeholder="Ex: João da Silva"/></div>
+    <div class="afg">
+      <label>Turma</label>
+      <select id="cad-turma">
+        <option value="">— Selecione sua turma —</option>
+        <optgroup label="💻 Desenvolvimento de Sistemas">
+          <option value="I TDS A">I TDS A — 1º Módulo · Sala 09</option>
+          <option value="I TDS B">I TDS B — 1º Módulo · Sala 10</option>
+          <option value="III TDS U">III TDS U — 3º Módulo · Sala 11</option>
+        </optgroup>
+        <optgroup label="🚚 Logística">
+          <option value="I LOG A">I LOG A — 1º Módulo · Sala 01</option>
+          <option value="I LOG B">I LOG B — 1º Módulo · Sala 03</option>
+          <option value="I LOG C">I LOG C — 1º Módulo · Sala 04</option>
+          <option value="III LOG A">III LOG A — 3º Módulo · Sala 05</option>
+          <option value="III LOG B">III LOG B — 3º Módulo · Sala 07</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="afg"><label>E-mail</label><input type="email" id="cad-email" placeholder="Ex: joao@email.com"/></div>
+    <div style="display:flex;gap:10px">
+      <div class="afg" style="flex:1"><label>Senha</label><input type="password" id="cad-senha" placeholder="Mín. 4 caracteres"/></div>
+      <div class="afg" style="flex:1"><label>Confirmar</label><input type="password" id="cad-senha2" placeholder="Repetir senha"/></div>
+    </div>
+    <button class="btn-gn" onclick="cadastrarAluno()">✅ Criar conta</button>
+    <p class="a-link">Já tem conta? <a onclick="go('aluno-login')">Entrar agora</a></p>
+    <p class="a-link" style="margin-top:6px"><a onclick="go('splash')">← Voltar ao início</a></p>
+  </div>
+</div>
+
+<!-- LOGIN ALUNO -->
+<div class="scr" id="aluno-login">
+  <div class="at">
+    <div class="at-card">
+      <div class="at-inn">
+        <div class="ah-ete"><span class="e1">E</span><span class="t">T</span><span class="e2">E</span></div>
+        <div style="color:rgba(255,255,255,.82);font-size:7px;letter-spacing:2.5px;text-transform:uppercase;font-weight:700">Escola Técnica Estadual</div>
+      </div>
+      <div style="font-size:10px;font-weight:800;color:#1e8449;letter-spacing:.7px;text-transform:uppercase">Luiz Alves Lacerda</div>
+    </div>
+    <div class="at-brand">tec<span>Edu</span></div>
+    <div class="at-sub">Área do Aluno</div>
+  </div>
+  <div class="asheet">
+    <h2>🎓 Entrar como Aluno</h2>
+    <p class="als">Use seu e-mail e senha para acessar</p>
+    <div class="afg"><label>E-mail</label><input type="email" id="login-aluno-email" placeholder="Ex: joao@email.com"/></div>
+    <div class="afg"><label>Senha</label><input type="password" id="login-aluno-senha" placeholder="••••••••"/></div>
+    <button class="btn-gn" onclick="loginAluno()">🔓 Entrar</button>
+    <p class="a-link">Não tem conta? <a onclick="go('aluno-cadastro')">Cadastrar-se</a></p>
+    <p class="a-link" style="margin-top:6px"><a onclick="go('splash')">← Voltar ao início</a></p>
+  </div>
+</div>
+
+<!-- HOME ALUNO -->
+<div class="scr" id="aluno-home">
+  <div class="ah-header">
+    <div class="ah-logo">
+      <div class="ah-badge">
+        <div class="ah-ete"><span class="e1">E</span><span class="t">T</span><span class="e2">E</span></div>
+        <div class="ah-sub">Escola Técnica Estadual</div>
+      </div>
+      <div class="ah-r">
+        <div class="ah-nome">Luiz Alves Lacerda</div>
+        <div class="ah-turma" id="ah-turma-label">Turma —</div>
+      </div>
+      <div onclick="goAlunoScreen('aluno-perfil')" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#a8f0c6,#27ae60);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;border:2px solid rgba(255,255,255,.4)" id="ah-avatar-btn">🎓</div>
+    </div>
+    <div class="ah-greet">
+      <div class="ah-hi" id="ah-hi">Olá, Aluno!</div>
+      <div class="ah-date" id="ah-date">—</div>
+      <div class="ah-chips">
+        <span class="ah-chip" id="ah-chip-turma">👥 —</span>
+        <span class="ah-chip" id="ah-chip-sala">🏫 —</span>
+        <span class="ah-chip">🌙 Noturno</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRÓXIMA AULA -->
+  <div class="prox-card prox-next" id="ah-prox-card" style="display:none">
+    <div class="prox-inner">
+      <div class="prox-lbl" id="ah-prox-lbl">PRÓXIMA AULA</div>
+      <div class="prox-disc" id="ah-prox-disc">—</div>
+      <div class="prox-sala" id="ah-prox-sala"><span>🏫</span> —</div>
+      <div class="prox-bar"><div class="prox-bar-fill" id="ah-prox-bar" style="width:0%"></div></div>
+      <div class="prox-footer">
+        <div>
+          <div class="prox-prof" id="ah-prox-prof">Prof. —</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.55);margin-top:1px" id="ah-prox-aula">—</div>
+        </div>
+        <div style="text-align:right">
+          <div class="prox-timer" id="ah-prox-timer">--:--</div>
+          <div class="prox-timer-lbl" id="ah-prox-lbl2">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AVISOS DO PROFESSOR -->
+  <div class="ag-section" style="margin-top:14px">
+    <div class="ag-sec-title">📣 Avisos do Professor</div>
+    <div id="ah-avisos-list"></div>
+  </div>
+
+  <!-- AULAS DE HOJE -->
+  <div class="ag-section" style="margin-top:6px">
+    <div class="ag-sec-title">📅 Aulas de Hoje</div>
+    <div id="ah-hoje-list"></div>
+  </div>
+  <div style="height:20px"></div>
+</div>
+
+<!-- GRADE ALUNO -->
+<div class="scr" id="aluno-grade">
+  <div style="background:linear-gradient(135deg,#1e8449,#27ae60);padding:16px 18px 20px;border-radius:0 0 22px 22px;flex-shrink:0">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <button onclick="goAlunoHome()" style="width:32px;height:32px;background:rgba(255,255,255,.18);border:none;border-radius:9px;color:#fff;font-size:15px;cursor:pointer">←</button>
+      <h2 style="font-size:17px;font-weight:800;color:#fff;flex:1">Grade Semanal</h2>
+      <span id="ag-turma-badge" style="background:rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:800;color:#fff">—</span>
+    </div>
+    <div class="ag-day-tabs" id="ag-day-tabs"></div>
+  </div>
+  <div style="padding:12px 14px 24px;overflow-y:auto;flex:1">
+    <div style="background:linear-gradient(135deg,#1e8449,#27ae60);border-radius:13px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:center;gap:9px">
+      <span style="font-size:17px">🏫</span>
+      <div>
+        <div style="font-size:12px;font-weight:800;color:#fff" id="ag-sala-label">Sala — · Turma —</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.65)" id="ag-dia-label">—</div>
+      </div>
+    </div>
+    <div id="ag-aulas-list"></div>
+  </div>
+</div>
+
+<!-- AVISOS ALUNO (tela completa) -->
+<div class="scr" id="aluno-avisos">
+  <div style="background:linear-gradient(135deg,#1e8449,#27ae60);padding:16px 18px 20px;border-radius:0 0 22px 22px;flex-shrink:0;display:flex;align-items:center;gap:10px">
+    <button onclick="goAlunoHome()" style="width:32px;height:32px;background:rgba(255,255,255,.18);border:none;border-radius:9px;color:#fff;font-size:15px;cursor:pointer">←</button>
+    <h2 style="font-size:17px;font-weight:800;color:#fff">Avisos &amp; Comunicados</h2>
+  </div>
+  <div style="padding:14px;overflow-y:auto;flex:1" id="aluno-avisos-full"></div>
+</div>
+
+<!-- PERFIL ALUNO -->
+<div class="scr" id="aluno-perfil">
+  <div class="ap-hero">
+    <div style="width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+      <button onclick="goAlunoHome()" style="background:rgba(255,255,255,.18);border:none;border-radius:9px;width:32px;height:32px;color:#fff;font-size:15px;cursor:pointer">←</button>
+      <span style="font-size:15px;font-weight:800;color:#fff">Meu Perfil</span>
+      <button onclick="openEditAluno()" style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:9px;padding:5px 12px;font-size:12px;font-weight:700;color:#fff;cursor:pointer">✏️ Editar</button>
+    </div>
+    <div class="ap-avatar" id="ap-avatar-wrap" onclick="document.getElementById('file-aluno-foto').click()" style="cursor:pointer">
+      <img id="ap-foto" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%"/>
+      <span id="ap-emoji">🎓</span>
+      <div style="position:absolute;bottom:-2px;right:-2px;width:26px;height:26px;background:#27ae60;border-radius:50%;border:2.5px solid #fff;display:flex;align-items:center;justify-content:center;font-size:12px">📷</div>
+    </div>
+    <input type="file" id="file-aluno-foto-hero" accept="image/*" style="display:none" onchange="trocarFotoAluno(this)"/>
+    <div class="ap-nome" id="ap-nome-display">—</div>
+    <div class="ap-turma" id="ap-turma-display">—</div>
+    <div class="ap-chips">
+      <span class="ap-chip">🌙 Noturno</span>
+    </div>
+  </div>
+
+  <div class="ap-section">
+    <div class="ap-sec-title">Informações</div>
+    <div class="ap-card">
+      <div class="ap-row"><div class="ap-row-ic" style="background:rgba(39,174,96,.1)">📧</div><div><div class="ap-row-lbl" id="ap-email-row">—</div><div class="ap-row-sub">E-mail</div></div></div>
+      <div class="ap-row"><div class="ap-row-ic" style="background:rgba(21,83,180,.1)">🎓</div><div><div class="ap-row-lbl" id="ap-turma-row">—</div><div class="ap-row-sub">Turma</div></div></div>
+      <div class="ap-row"><div class="ap-row-ic" style="background:rgba(245,166,35,.12)">🏫</div><div><div class="ap-row-lbl" id="ap-sala-row">—</div><div class="ap-row-sub">Sala</div></div></div>
+    </div>
+  </div>
+
+  <div class="ap-section">
+    <div class="ap-sec-title">Foto de perfil</div>
+    <div class="ap-card">
+      <div class="ap-row" onclick="document.getElementById('file-aluno-foto').click()" style="cursor:pointer">
+        <div class="ap-row-ic" style="background:rgba(39,174,96,.1)">📷</div>
+        <div><div class="ap-row-lbl">Trocar foto</div><div class="ap-row-sub">Selecione uma imagem da galeria</div></div>
+        <span style="font-size:15px;color:#ccc">›</span>
+      </div>
+    </div>
+    <input type="file" id="file-aluno-foto" accept="image/*" style="display:none" onchange="trocarFotoAluno(this)"/>
+  </div>
+
+  <div class="ap-section" style="margin-bottom:30px">
+    <button onclick="logoutAluno()" style="width:100%;padding:14px;background:#fff;border:2px solid rgba(231,76,60,.2);border-radius:14px;color:#e74c3c;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">🚪 Sair da conta</button>
+  </div>
+</div>
+
+<!-- MODAL EDITAR ALUNO -->
+<div class="edit-overlay" id="edit-aluno-overlay">
+  <div class="edit-sheet">
+    <div class="mhdl"></div>
+    <h3 style="font-size:18px;font-weight:800;color:#1a2a4a;margin-bottom:4px">✏️ Editar Perfil</h3>
+    <p style="font-size:12px;color:#6b7c99;margin-bottom:16px">Atualize suas informações</p>
+    <div class="edit-fg"><label>Nome completo</label><input type="text" id="ea-nome" placeholder="Seu nome"/></div>
+    <div class="edit-fg"><label>E-mail</label><input type="email" id="ea-email" placeholder="Seu e-mail"/></div>
+    <div class="edit-actions">
+      <button class="edit-cancel" onclick="closeEditAluno()">Cancelar</button>
+      <button class="edit-save" style="background:#27ae60;box-shadow:0 6px 18px rgba(39,174,96,.3)" onclick="salvarEditAluno()">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV ALUNO -->
+<div class="anav" id="anav">
+  <button class="anb on" id="anb-home" onclick="goAlunoHome()"><span class="ani">🏠</span><span class="anl">Início</span></button>
+  <button class="anb" id="anb-grade" onclick="goAlunoScreen('aluno-grade')"><span class="ani">📅</span><span class="anl">Grade</span></button>
+  <button class="anb" id="anb-avisos" onclick="goAlunoScreen('aluno-avisos')" style="position:relative"><span class="ani">📢</span><span class="anl">Avisos</span><span class="bell-badge" id="anb-badge" style="display:none">!</span></button>
+  <button class="anb" id="anb-perfil" onclick="goAlunoScreen('aluno-perfil')"><span class="ani">👤</span><span class="anl">Perfil</span></button>
+</div>
+
+<!-- ============================================================ -->
+
+<!-- MODAL CONFIRMAÇÃO DE SAÍDA -->
+<div class="logout-overlay" id="logout-overlay">
+  <div class="logout-sheet">
+    <div class="ls-icon">🚪</div>
+    <div class="ls-title">Sair do TecEdu?</div>
+    <div class="ls-sub">Você será redirecionado para a tela de login. Seus registros serão mantidos.</div>
+    <div class="ls-btns">
+      <button class="ls-cancel" onclick="closeLogout()">Cancelar</button>
+      <button class="ls-confirm" onclick="doLogout()">Sair</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR PERFIL -->
+<div class="edit-overlay" id="edit-overlay">
+  <div class="edit-sheet">
+    <div class="mhdl"></div>
+    <h3 style="font-size:18px;font-weight:800;color:#1a2a4a;margin-bottom:4px">✏️ Editar Perfil</h3>
+    <p style="font-size:12px;color:#6b7c99;margin-bottom:18px">Suas informações salvas localmente no dispositivo.</p>
+
+    <!-- FOTO -->
+    <div class="edit-photo-area">
+      <div class="edit-avatar-preview" id="edit-preview" onclick="document.getElementById('file-foto').click()">
+        <img id="edit-preview-img" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%"/>
+        <span id="edit-preview-emoji">👩‍🏫</span>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.45);padding:4px;text-align:center;font-size:10px;font-weight:700;color:#fff;border-radius:0 0 50px 50px">Trocar</div>
+      </div>
+      <input type="file" id="file-foto" accept="image/*" style="display:none" onchange="previewFoto(this)"/>
+      <div class="edit-photo-btns">
+        <button class="ep-btn ep-btn-photo" onclick="document.getElementById('file-foto').click()">📷 Escolher foto</button>
+        <button class="ep-btn ep-btn-remove" onclick="removerFoto()">🗑 Remover</button>
+      </div>
+    </div>
+
+    <div class="edit-fg"><label>Nome completo</label><input type="text" id="edit-nome" placeholder="Ex: Profa. Graziela"/></div>
+    <div class="edit-fg"><label>Cargo / função</label><input type="text" id="edit-cargo" placeholder="Ex: Professora · ETE Luiz Alves Lacerda"/></div>
+    <div class="edit-fg"><label>E-mail institucional</label><input type="email" id="edit-email" placeholder="Ex: graziela@ete.edu.br"/></div>
+
+    <div class="edit-actions">
+      <button class="edit-cancel" onclick="closeEditPerfil()">Cancelar</button>
+      <button class="edit-save" onclick="salvarPerfil()">💾 Salvar alterações</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICAÇÃO FLUTUANTE -->
+<div class="notif-float" id="notif-float">
+  <div class="notif-ic" id="notif-ic">📣</div>
+  <div class="notif-content">
+    <div class="notif-title" id="notif-title">Aviso da escola</div>
+    <div class="notif-body" id="notif-body">Mensagem aqui</div>
+    <div class="notif-time" id="notif-time">agora</div>
+  </div>
+  <button class="notif-close" onclick="fecharNotif()">✕</button>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav" id="bnav">
+  <button class="nb on" id="nb-home" onclick="goHome()"><span class="ni">🏠</span><span class="nl">Início</span></button>
+  <button class="nb" id="nb-avisos" onclick="gos('avisos')" style="position:relative"><span class="ni">📢</span><span class="nl">Avisos</span><span class="bell-badge" id="avisos-badge" style="display:none">!</span></button>
+  <button class="nb" id="nb-horarios" onclick="gos('horarios')"><span class="ni">📅</span><span class="nl">Aulas</span></button>
+  <button class="nb" id="nb-parei" onclick="gos('parei')"><span class="ni">📍</span><span class="nl">Andamento</span></button>
+  <button class="nb" id="nb-perfil" onclick="gos('perfil')"><span class="ni">👤</span><span class="nl">Perfil</span></button>
+</div>
+</div>
+
+<!-- MODAL ANDAMENTO -->
+<div class="mov" id="modal">
+  <div class="msh">
+    <div class="mhdl"></div>
+    <h3>📍 Registrar Andamento</h3>
+    <p class="ms" id="m-sub">Registre onde parou nesta disciplina</p>
+    <div class="mdi">
+      <div class="md-sig" id="m-sig"></div>
+      <div class="md-nm" id="m-nm"></div>
+    </div>
+    <div class="sopts">
+      <button class="sopt" onclick="selO(this)">📖 Explicação de conteúdo teórico</button>
+      <button class="sopt" onclick="selO(this)">✏️ Lista de exercícios / atividade prática</button>
+      <button class="sopt" onclick="selO(this)">💻 Projeto / implementação de código</button>
+      <button class="sopt" onclick="selO(this)">📝 Revisão para avaliação</button>
+      <button class="sopt" onclick="selO(this)">🧪 Avaliação em andamento</button>
+    </div>
+    <textarea class="sinp" id="m-det" placeholder="Detalhe: ex. Pág. 45 · Exercício 7 · Slide 18 · Cap. 3..."></textarea>
+    <div class="macts">
+      <button class="mc2" onclick="closeM()">Cancelar</button>
+      <button class="ms2" onclick="saveM()">💾 Salvar Registro</button>
+    </div>
+  </div>
+</div>
+
+<!-- ALERTA URGENTE - MODAL ≤ 10 MIN -->
+<div id="urgency-overlay">
+  <div class="urgency-sheet">
+    <div class="urg-header">
+      <span class="urg-emoji" id="urg-emoji">🔔</span>
+      <div class="urg-title" id="urg-title">Hora de ir para a sala!</div>
+      <div class="urg-sub" id="urg-sub">Sua próxima aula começa em breve</div>
+    </div>
+    <div class="urg-card">
+      <div class="urg-disc-name" id="urg-disc-name">Disciplina</div>
+      <div class="urg-sala-row">
+        <span class="urg-sala-pill">🏫 <span id="urg-sala">Sala --</span></span>
+        <span class="urg-sala-pill" style="margin-left:6px">👥 <span id="urg-turma">Turma --</span></span>
+      </div>
+      <div class="urg-prof" id="urg-prof">Prof. --</div>
+    </div>
+    <div class="urg-countdown" id="urg-countdown">--:--</div>
+    <div class="urg-countdown-lbl">para o início da aula</div>
+    <button class="urg-btn" onclick="closeUrgency()">✓ Entendido, vou agora!</button>
+  </div>
+</div>
+
+<script>
+var DAYS=['seg','ter','qua','qui','sex'];
+var DNAMES=['Segunda','Ter\u00e7a','Quarta','Quinta','Sexta'];
+var DFULL=['Segunda-feira','Ter\u00e7a-feira','Quarta-feira','Quinta-feira','Sexta-feira'];
+var MNS=['janeiro','fevereiro','mar\u00e7o','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+var WDS=['Domingo','Segunda-feira','Ter\u00e7a-feira','Quarta-feira','Quinta-feira','Sexta-feira','S\u00e1bado'];
+
+var DDATES=(function(){
+  var hoje=new Date();
+  var dow=hoje.getDay();
+  if(dow===0){dow=1;hoje.setDate(hoje.getDate()+1);}
+  if(dow===6){dow=1;hoje.setDate(hoje.getDate()+2);}
+  var seg=new Date(hoje);
+  seg.setDate(hoje.getDate()-(dow-1));
+  var arr=[];
+  for(var i=0;i<5;i++){
+    var d=new Date(seg);
+    d.setDate(seg.getDate()+i);
+    arr.push(String(d.getDate()).padStart(2,'0'));
+  }
+  return arr;
+})();
+
+var DMONTHS=(function(){
+  var hoje=new Date();
+  var dow=hoje.getDay();
+  if(dow===0){dow=1;hoje.setDate(hoje.getDate()+1);}
+  if(dow===6){dow=1;hoje.setDate(hoje.getDate()+2);}
+  var seg=new Date(hoje);
+  seg.setDate(hoje.getDate()-(dow-1));
+  var meses=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  var arr=[];
+  for(var i=0;i<5;i++){
+    var d=new Date(seg);
+    d.setDate(seg.getDate()+i);
+    arr.push(meses[d.getMonth()]);
+  }
+  return arr;
+})();
+
+// Dados de sala por turma
+var SALA_MAP={
+  'I LOG A':'Sala 01','I LOG B':'Sala 03','I LOG C':'Sala 04',
+  'III LOG A':'Sala 05','III LOG B':'Sala 07',
+  'I TDS A':'Sala 09','I TDS B':'Sala 10','III TDS U':'Sala 11'
+};
+
+// Turma selecionada atualmente
+var TURMA_ATUAL = localStorage.getItem('turma_atual') || 'I TDS B';
+
+// Todas as grades por turma
+var TODAS_GRADES = {
+  // ===== I TDS B \u2014 Sala 10 =====
+  'I TDS B': {
+    seg:[
+      {h:'18:40',e:'19:20',n:1,d:'DT',nm:'Design Thinking',p:'Alexandra',cc:'c-dt'},
+      {h:'19:20',e:'20:00',n:2,d:'DT',nm:'Design Thinking',p:'Alexandra',cc:'c-dt'},
+      {h:'20:00',e:'20:40',n:3,d:'PNT Desk',nm:'Prog. Novas Tec. (Desktop)',p:'Marcos',cc:'c-pnt'},
+      {h:'20:40',e:'21:20',n:4,d:'PNT Desk',nm:'Prog. Novas Tec. (Desktop)',p:'Marcos',cc:'c-pnt'},
+      {h:'21:20',e:'22:00',n:5,d:'HSCE',nm:'HSCE (EAD)',p:'Gustavo',cc:'c-hsce',ead:true}
+    ],
+    ter:[
+      {h:'18:40',e:'19:20',n:1,d:'ADB',nm:'Adm. de Banco de Dados',p:'Will',cc:'c-abd'},
+      {h:'19:20',e:'20:00',n:2,d:'ADB',nm:'Adm. de Banco de Dados',p:'Will',cc:'c-abd'},
+      {h:'20:00',e:'20:40',n:3,d:'PI I',nm:'Projeto Integrador I',p:'Grazi',cc:'c-pi'},
+      {h:'20:40',e:'21:20',n:4,d:'PI I',nm:'Projeto Integrador I',p:'Grazi',cc:'c-pi'},
+      {h:'21:20',e:'22:00',n:5,d:'HSCE',nm:'HSCE (EAD)',p:'Gustavo',cc:'c-hsce',ead:true}
+    ],
+    qua:[
+      {h:'18:40',e:'19:20',n:1,d:'ADB',nm:'Adm. de Banco de Dados',p:'Will',cc:'c-abd'},
+      {h:'19:20',e:'20:00',n:2,d:'ADB',nm:'Adm. de Banco de Dados',p:'Will',cc:'c-abd'},
+      {h:'20:00',e:'20:40',n:3,d:'LPC',nm:'L\u00f3gica e Pens. Computacional',p:'Marcos',cc:'c-lpc'},
+      {h:'20:40',e:'21:20',n:4,d:'LPC',nm:'L\u00f3gica e Pens. Computacional',p:'Marcos',cc:'c-lpc'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    qui:[
+      {h:'18:40',e:'19:20',n:1,d:'LPC',nm:'L\u00f3gica e Pens. Computacional',p:'Marcos',cc:'c-lpc'},
+      {h:'19:20',e:'20:00',n:2,d:'LPC',nm:'L\u00f3gica e Pens. Computacional',p:'Marcos',cc:'c-lpc'},
+      {h:'20:00',e:'20:40',n:3,d:'DCU',nm:'Design Centrado no Usu\u00e1rio',p:'Grazi',cc:'c-dcu'},
+      {h:'20:40',e:'21:20',n:4,d:'DCU',nm:'Design Centrado no Usu\u00e1rio',p:'Grazi',cc:'c-dcu'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    sex:[
+      {h:'18:40',e:'19:20',n:1,d:'PNT Desk',nm:'Prog. Novas Tec. (Desktop)',p:'Marcos',cc:'c-pnt'},
+      {h:'19:20',e:'20:00',n:2,d:'PNT Desk',nm:'Prog. Novas Tec. (Desktop)',p:'Marcos',cc:'c-pnt'},
+      {h:'20:00',e:'20:40',n:3,d:'LPC',nm:'L\u00f3gica e Pens. Computacional',p:'Marcos',cc:'c-lpc'},
+      {h:'20:40',e:'21:20',n:4,d:'LPC',nm:'L\u00f3gica e Pens. Computacional',p:'Marcos',cc:'c-lpc'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ]
+  },
+  // ===== I TDS A \u2014 Sala 09 =====
+  'I TDS A': {
+    seg:[
+      {h:'18:40',e:'19:20',n:1,d:'PNT Desk',nm:'Prog. Novas Tec. (Desktop)',p:'Marcos',cc:'c-pnt'},
+      {h:'19:20',e:'20:00',n:2,d:'PNT Desk',nm:'Prog. Novas Tec. (Desktop)',p:'Marcos',cc:'c-pnt'},
+      {h:'20:00',e:'20:40',n:3,d:'ABD',nm:'Adm. de Banco de Dados',p:'Will',cc:'c-abd'},
+      {h:'20:40',e:'21:20',n:4,d:'ABD',nm:'Adm. de Banco de Dados',p:'Will',cc:'c-abd'},
+      {h:'21:20',e:'22:00',n:5,d:'HSCE',nm:'HSCE (EAD)',p:'Gustavo',cc:'c-hsce',ead:true}
+    ],
+    ter:[
+      {h:'18:40',e:'19:20',n:1,d:'PNT Desk',nm:'Prog. Novas Tec. (Desktop)',p:'Marcos',cc:'c-pnt'},
+      {h:'19:20',e:'20:00',n:2,d:'PNT Desk',nm:'Prog. Novas Tec. (Desktop)',p:'Marcos',cc:'c-pnt'},
+      {h:'20:00',e:'20:40',n:3,d:'LPC',nm:'L\u00f3gica e Pens. Computacional',p:'Marcos',cc:'c-lpc'},
+      {h:'20:40',e:'21:20',n:4,d:'LPC',nm:'L\u00f3gica e Pens. Computacional',p:'Marcos',cc:'c-lpc'},
+      {h:'21:20',e:'22:00',n:5,d:'HSCE',nm:'HSCE (EAD)',p:'Gustavo',cc:'c-hsce',ead:true}
+    ],
+    qua:[
+      {h:'18:40',e:'19:20',n:1,d:'LPC',nm:'L\u00f3gica e Pens. Computacional',p:'Marcos',cc:'c-lpc'},
+      {h:'19:20',e:'20:00',n:2,d:'LPC',nm:'L\u00f3gica e Pens. Computacional',p:'Marcos',cc:'c-lpc'},
+      {h:'20:00',e:'20:40',n:3,d:'DCU',nm:'Design Centrado no Usu\u00e1rio',p:'Grazi',cc:'c-dcu'},
+      {h:'20:40',e:'21:20',n:4,d:'DCU',nm:'Design Centrado no Usu\u00e1rio',p:'Grazi',cc:'c-dcu'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    qui:[
+      {h:'18:40',e:'19:20',n:1,d:'DT',nm:'Design Thinking',p:'Alexandra',cc:'c-dt'},
+      {h:'19:20',e:'20:00',n:2,d:'DT',nm:'Design Thinking',p:'Alexandra',cc:'c-dt'},
+      {h:'20:00',e:'20:40',n:3,d:'LPC',nm:'L\u00f3gica e Pens. Computacional',p:'Marcos',cc:'c-lpc'},
+      {h:'20:40',e:'21:20',n:4,d:'LPC',nm:'L\u00f3gica e Pens. Computacional',p:'Marcos',cc:'c-lpc'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    sex:[
+      {h:'18:40',e:'19:20',n:1,d:'ABD',nm:'Adm. de Banco de Dados',p:'Will',cc:'c-abd'},
+      {h:'19:20',e:'20:00',n:2,d:'ABD',nm:'Adm. de Banco de Dados',p:'Will',cc:'c-abd'},
+      {h:'20:00',e:'20:40',n:3,d:'PI I',nm:'Projeto Integrador I',p:'Will',cc:'c-pi'},
+      {h:'20:40',e:'21:20',n:4,d:'PI I',nm:'Projeto Integrador I',p:'Will',cc:'c-pi'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ]
+  },
+  // ===== III TDS U \u2014 Sala 11 =====
+  'III TDS U': {
+    seg:[
+      {h:'18:40',e:'19:20',n:1,d:'ETSE',nm:'\u00c9tica e Seg. da Informa\u00e7\u00e3o',p:'Grazi',cc:'c-pi'},
+      {h:'19:20',e:'20:00',n:2,d:'ETSE',nm:'\u00c9tica e Seg. da Informa\u00e7\u00e3o',p:'Grazi',cc:'c-pi'},
+      {h:'20:00',e:'20:40',n:3,d:'DEIN',nm:'Design de Interfaces Mobile',p:'Grazi',cc:'c-dcu'},
+      {h:'20:40',e:'21:20',n:4,d:'DEIN',nm:'Design de Interfaces Mobile',p:'Grazi',cc:'c-dcu'},
+      {h:'21:20',e:'22:00',n:5,d:'ELE II',nm:'Eletiva II (EAD)',p:'Gustavo',cc:'c-hsce',ead:true}
+    ],
+    ter:[
+      {h:'18:40',e:'19:20',n:1,d:'PRONO',nm:'Prog. Novas Tec. (Mobile)',p:'Grazi',cc:'c-pnt'},
+      {h:'19:20',e:'20:00',n:2,d:'PRONO',nm:'Prog. Novas Tec. (Mobile)',p:'Grazi',cc:'c-pnt'},
+      {h:'20:00',e:'20:40',n:3,d:'ADB',nm:'Adm. de Banco de Dados',p:'Will',cc:'c-abd'},
+      {h:'20:40',e:'21:20',n:4,d:'ADB',nm:'Adm. de Banco de Dados',p:'Will',cc:'c-abd'},
+      {h:'21:20',e:'22:00',n:5,d:'ELE II',nm:'Eletiva II (EAD)',p:'Gustavo',cc:'c-hsce',ead:true}
+    ],
+    qua:[
+      {h:'18:40',e:'19:20',n:1,d:'PRONO',nm:'Prog. Novas Tec. (Mobile)',p:'Grazi',cc:'c-pnt'},
+      {h:'19:20',e:'20:00',n:2,d:'PRONO',nm:'Prog. Novas Tec. (Mobile)',p:'Grazi',cc:'c-pnt'},
+      {h:'20:00',e:'20:40',n:3,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Will',cc:'c-lpc'},
+      {h:'20:40',e:'21:20',n:4,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Will',cc:'c-lpc'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    qui:[
+      {h:'18:40',e:'19:20',n:1,d:'PRONO',nm:'Prog. Novas Tec. (Mobile)',p:'Grazi',cc:'c-pnt'},
+      {h:'19:20',e:'20:00',n:2,d:'PRONO',nm:'Prog. Novas Tec. (Mobile)',p:'Grazi',cc:'c-pnt'},
+      {h:'20:00',e:'20:40',n:3,d:'ADB',nm:'Adm. de Banco de Dados',p:'Will',cc:'c-abd'},
+      {h:'20:40',e:'21:20',n:4,d:'ADB',nm:'Adm. de Banco de Dados',p:'Will',cc:'c-abd'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    sex:[
+      {h:'18:40',e:'19:20',n:1,d:'PRONO',nm:'Prog. Novas Tec. (Mobile)',p:'Grazi',cc:'c-pnt'},
+      {h:'19:20',e:'20:00',n:2,d:'PRONO',nm:'Prog. Novas Tec. (Mobile)',p:'Grazi',cc:'c-pnt'},
+      {h:'20:00',e:'20:40',n:3,d:'PI III',nm:'Projeto Integrador III',p:'Grazi',cc:'c-pi'},
+      {h:'20:40',e:'21:20',n:4,d:'PI III',nm:'Projeto Integrador III',p:'Grazi',cc:'c-pi'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ]
+  },
+  // ===== I LOG A \u2014 Sala 01 =====
+  'I LOG A': {
+    seg:[
+      {h:'18:40',e:'19:20',n:1,d:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',p:'Joaquim',cc:'c-dt'},
+      {h:'19:20',e:'20:00',n:2,d:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',p:'Joaquim',cc:'c-dt'},
+      {h:'20:00',e:'20:40',n:3,d:'FAL',nm:'Fundamentos Adm. e Log\u00edstica',p:'Murilo',cc:'c-lpc'},
+      {h:'20:40',e:'21:20',n:4,d:'FAL',nm:'Fundamentos Adm. e Log\u00edstica',p:'Murilo',cc:'c-lpc'},
+      {h:'21:20',e:'22:00',n:5,d:'HSCE',nm:'HSCE (EAD)',p:'Ana Karla',cc:'c-hsce',ead:true}
+    ],
+    ter:[
+      {h:'18:40',e:'19:20',n:1,d:'FAL',nm:'Fundamentos Adm. e Log\u00edstica',p:'Murilo',cc:'c-lpc'},
+      {h:'19:20',e:'20:00',n:2,d:'FAL',nm:'Fundamentos Adm. e Log\u00edstica',p:'Murilo',cc:'c-lpc'},
+      {h:'20:00',e:'20:40',n:3,d:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',p:'Joaquim',cc:'c-dt'},
+      {h:'20:40',e:'21:20',n:4,d:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',p:'Joaquim',cc:'c-dt'},
+      {h:'21:20',e:'22:00',n:5,d:'HSCE',nm:'HSCE (EAD)',p:'Ana Karla',cc:'c-hsce',ead:true}
+    ],
+    qua:[
+      {h:'18:40',e:'19:20',n:1,d:'PROJVIDA',nm:'Projeto de Vida',p:'Ricardo',cc:'c-pi'},
+      {h:'19:20',e:'20:00',n:2,d:'PROJVIDA',nm:'Projeto de Vida',p:'Ricardo',cc:'c-pi'},
+      {h:'20:00',e:'20:40',n:3,d:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',p:'Ricardo',cc:'c-abd'},
+      {h:'20:40',e:'21:20',n:4,d:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',p:'Ricardo',cc:'c-abd'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    qui:[
+      {h:'18:40',e:'19:20',n:1,d:'PI I',nm:'Projeto Integrador I',p:'Eg\u00eddio',cc:'c-pi'},
+      {h:'19:20',e:'20:00',n:2,d:'PI I',nm:'Projeto Integrador I',p:'Eg\u00eddio',cc:'c-pi'},
+      {h:'20:00',e:'20:40',n:3,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Alexandra',cc:'c-dcu'},
+      {h:'20:40',e:'21:20',n:4,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Alexandra',cc:'c-dcu'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    sex:[
+      {h:'18:40',e:'19:20',n:1,d:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',p:'Ricardo',cc:'c-abd'},
+      {h:'19:20',e:'20:00',n:2,d:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',p:'Ricardo',cc:'c-abd'},
+      {h:'20:00',e:'20:40',n:3,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Alexandra',cc:'c-dcu'},
+      {h:'20:40',e:'21:20',n:4,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Alexandra',cc:'c-dcu'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ]
+  },
+  // ===== I LOG B \u2014 Sala 03 =====
+  'I LOG B': {
+    seg:[
+      {h:'18:40',e:'19:20',n:1,d:'FAL',nm:'Fundamentos Adm. e Log\u00edstica',p:'Murilo',cc:'c-lpc'},
+      {h:'19:20',e:'20:00',n:2,d:'FAL',nm:'Fundamentos Adm. e Log\u00edstica',p:'Murilo',cc:'c-lpc'},
+      {h:'20:00',e:'20:40',n:3,d:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',p:'Ricardo',cc:'c-abd'},
+      {h:'20:40',e:'21:20',n:4,d:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',p:'Ricardo',cc:'c-abd'},
+      {h:'21:20',e:'22:00',n:5,d:'HSCE',nm:'HSCE (EAD)',p:'Ana Karla',cc:'c-hsce',ead:true}
+    ],
+    ter:[
+      {h:'18:40',e:'19:20',n:1,d:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',p:'Joaquim',cc:'c-dt'},
+      {h:'19:20',e:'20:00',n:2,d:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',p:'Joaquim',cc:'c-dt'},
+      {h:'20:00',e:'20:40',n:3,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Alexandra',cc:'c-dcu'},
+      {h:'20:40',e:'21:20',n:4,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Alexandra',cc:'c-dcu'},
+      {h:'21:20',e:'22:00',n:5,d:'HSCE',nm:'HSCE (EAD)',p:'Ana Karla',cc:'c-hsce',ead:true}
+    ],
+    qua:[
+      {h:'18:40',e:'19:20',n:1,d:'PI I',nm:'Projeto Integrador I',p:'Eg\u00eddio',cc:'c-pi'},
+      {h:'19:20',e:'20:00',n:2,d:'PI I',nm:'Projeto Integrador I',p:'Eg\u00eddio',cc:'c-pi'},
+      {h:'20:00',e:'20:40',n:3,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Alexandra',cc:'c-dcu'},
+      {h:'20:40',e:'21:20',n:4,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Alexandra',cc:'c-dcu'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    qui:[
+      {h:'18:40',e:'19:20',n:1,d:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',p:'Ricardo',cc:'c-abd'},
+      {h:'19:20',e:'20:00',n:2,d:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',p:'Ricardo',cc:'c-abd'},
+      {h:'20:00',e:'20:40',n:3,d:'FAL',nm:'Fundamentos Adm. e Log\u00edstica',p:'Murilo',cc:'c-lpc'},
+      {h:'20:40',e:'21:20',n:4,d:'FAL',nm:'Fundamentos Adm. e Log\u00edstica',p:'Murilo',cc:'c-lpc'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    sex:[
+      {h:'18:40',e:'19:20',n:1,d:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',p:'Joaquim',cc:'c-dt'},
+      {h:'19:20',e:'20:00',n:2,d:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',p:'Joaquim',cc:'c-dt'},
+      {h:'20:00',e:'20:40',n:3,d:'PROJVIDA',nm:'Projeto de Vida',p:'Joaquim',cc:'c-pi'},
+      {h:'20:40',e:'21:20',n:4,d:'PROJVIDA',nm:'Projeto de Vida',p:'Joaquim',cc:'c-pi'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ]
+  },
+  // ===== I LOG C \u2014 Sala 04 =====
+  'I LOG C': {
+    seg:[
+      {h:'18:40',e:'19:20',n:1,d:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',p:'Ricardo',cc:'c-dt'},
+      {h:'19:20',e:'20:00',n:2,d:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',p:'Ricardo',cc:'c-dt'},
+      {h:'20:00',e:'20:40',n:3,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Alexandra',cc:'c-dcu'},
+      {h:'20:40',e:'21:20',n:4,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Alexandra',cc:'c-dcu'},
+      {h:'21:20',e:'22:00',n:5,d:'HSCE',nm:'HSCE (EAD)',p:'Ana Karla',cc:'c-hsce',ead:true}
+    ],
+    ter:[
+      {h:'18:40',e:'19:20',n:1,d:'PI I',nm:'Projeto Integrador I',p:'Alexandra',cc:'c-pi'},
+      {h:'19:20',e:'20:00',n:2,d:'PI I',nm:'Projeto Integrador I',p:'Alexandra',cc:'c-pi'},
+      {h:'20:00',e:'20:40',n:3,d:'FAL',nm:'Fundamentos Adm. e Log\u00edstica',p:'Murilo',cc:'c-lpc'},
+      {h:'20:40',e:'21:20',n:4,d:'FAL',nm:'Fundamentos Adm. e Log\u00edstica',p:'Murilo',cc:'c-lpc'},
+      {h:'21:20',e:'22:00',n:5,d:'HSCE',nm:'HSCE (EAD)',p:'Ana Karla',cc:'c-hsce',ead:true}
+    ],
+    qua:[
+      {h:'18:40',e:'19:20',n:1,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Alexandra',cc:'c-dcu'},
+      {h:'19:20',e:'20:00',n:2,d:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',p:'Alexandra',cc:'c-dcu'},
+      {h:'20:00',e:'20:40',n:3,d:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',p:'Eg\u00eddio',cc:'c-abd'},
+      {h:'20:40',e:'21:20',n:4,d:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',p:'Eg\u00eddio',cc:'c-abd'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    qui:[
+      {h:'18:40',e:'19:20',n:1,d:'FAL',nm:'Fundamentos Adm. e Log\u00edstica',p:'Murilo',cc:'c-lpc'},
+      {h:'19:20',e:'20:00',n:2,d:'FAL',nm:'Fundamentos Adm. e Log\u00edstica',p:'Murilo',cc:'c-lpc'},
+      {h:'20:00',e:'20:40',n:3,d:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',p:'Eg\u00eddio',cc:'c-abd'},
+      {h:'20:40',e:'21:20',n:4,d:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',p:'Eg\u00eddio',cc:'c-abd'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    sex:[
+      {h:'18:40',e:'19:20',n:1,d:'PROJVIDA',nm:'Projeto de Vida',p:'Alexandra',cc:'c-pi'},
+      {h:'19:20',e:'20:00',n:2,d:'PROJVIDA',nm:'Projeto de Vida',p:'Alexandra',cc:'c-pi'},
+      {h:'20:00',e:'20:40',n:3,d:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',p:'Ricardo',cc:'c-dt'},
+      {h:'20:40',e:'21:20',n:4,d:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',p:'Ricardo',cc:'c-dt'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ]
+  },
+  // ===== III LOG A \u2014 Sala 05 =====
+  'III LOG A': {
+    seg:[
+      {h:'18:40',e:'19:20',n:1,d:'SISL',nm:'Sistema de Informa\u00e7\u00e3o Aplicado',p:'Eg\u00eddio',cc:'c-lpc'},
+      {h:'19:20',e:'20:00',n:2,d:'SISL',nm:'Sistema de Informa\u00e7\u00e3o Aplicado',p:'Eg\u00eddio',cc:'c-lpc'},
+      {h:'20:00',e:'20:40',n:3,d:'FUCOCU',nm:'Fund. Contabilidade e Custos',p:'Allan',cc:'c-abd'},
+      {h:'20:40',e:'21:20',n:4,d:'FUCOCU',nm:'Fund. Contabilidade e Custos',p:'Allan',cc:'c-abd'},
+      {h:'21:20',e:'22:00',n:5,d:'ELE II',nm:'Eletiva II (EAD)',p:'Cleide',cc:'c-hsce',ead:true}
+    ],
+    ter:[
+      {h:'18:40',e:'19:20',n:1,d:'GEPROPL',nm:'Gest\u00e3o da Produ\u00e7\u00e3o e Opera\u00e7\u00f5es',p:'Eg\u00eddio',cc:'c-pi'},
+      {h:'19:20',e:'20:00',n:2,d:'GEPROPL',nm:'Gest\u00e3o da Produ\u00e7\u00e3o e Opera\u00e7\u00f5es',p:'Eg\u00eddio',cc:'c-pi'},
+      {h:'20:00',e:'20:40',n:3,d:'PI III',nm:'Projeto Integrador III',p:'Ricardo',cc:'c-dcu'},
+      {h:'20:40',e:'21:20',n:4,d:'PI III',nm:'Projeto Integrador III',p:'Ricardo',cc:'c-dcu'},
+      {h:'21:20',e:'22:00',n:5,d:'ELE II',nm:'Eletiva II (EAD)',p:'Cleide',cc:'c-hsce',ead:true}
+    ],
+    qua:[
+      {h:'18:40',e:'19:20',n:1,d:'FUCOEX',nm:'Fund. Com\u00e9rcio Exterior e E-Com.',p:'Murilo',cc:'c-pnt'},
+      {h:'19:20',e:'20:00',n:2,d:'FUCOEX',nm:'Fund. Com\u00e9rcio Exterior e E-Com.',p:'Murilo',cc:'c-pnt'},
+      {h:'20:00',e:'20:40',n:3,d:'GDT',nm:'Gest\u00e3o de Transportes',p:'Antonio',cc:'c-dt'},
+      {h:'20:40',e:'21:20',n:4,d:'GDT',nm:'Gest\u00e3o de Transportes',p:'Antonio',cc:'c-dt'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    qui:[
+      {h:'18:40',e:'19:20',n:1,d:'GDT',nm:'Gest\u00e3o de Transportes',p:'Antonio',cc:'c-dt'},
+      {h:'19:20',e:'20:00',n:2,d:'GDT',nm:'Gest\u00e3o de Transportes',p:'Antonio',cc:'c-dt'},
+      {h:'20:00',e:'20:40',n:3,d:'FUCOCU',nm:'Fund. Contabilidade e Custos',p:'Allan',cc:'c-abd'},
+      {h:'20:40',e:'21:20',n:4,d:'FUCOCU',nm:'Fund. Contabilidade e Custos',p:'Allan',cc:'c-abd'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    sex:[
+      {h:'18:40',e:'19:20',n:1,d:'GEPROPL',nm:'Gest\u00e3o da Produ\u00e7\u00e3o e Opera\u00e7\u00f5es',p:'Eg\u00eddio',cc:'c-pi'},
+      {h:'19:20',e:'20:00',n:2,d:'GEPROPL',nm:'Gest\u00e3o da Produ\u00e7\u00e3o e Opera\u00e7\u00f5es',p:'Eg\u00eddio',cc:'c-pi'},
+      {h:'20:00',e:'20:40',n:3,d:'FUCOEX',nm:'Fund. Com\u00e9rcio Exterior e E-Com.',p:'Murilo',cc:'c-pnt'},
+      {h:'20:40',e:'21:20',n:4,d:'FUCOEX',nm:'Fund. Com\u00e9rcio Exterior e E-Com.',p:'Murilo',cc:'c-pnt'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ]
+  },
+  // ===== III LOG B \u2014 Sala 07 =====
+  'III LOG B': {
+    seg:[
+      {h:'18:40',e:'19:20',n:1,d:'FUCOCU',nm:'Fund. Contabilidade e Custos',p:'Allan',cc:'c-abd'},
+      {h:'19:20',e:'20:00',n:2,d:'FUCOCU',nm:'Fund. Contabilidade e Custos',p:'Allan',cc:'c-abd'},
+      {h:'20:00',e:'20:40',n:3,d:'GEPROPL',nm:'Gest\u00e3o da Produ\u00e7\u00e3o e Opera\u00e7\u00f5es',p:'Eg\u00eddio',cc:'c-pi'},
+      {h:'20:40',e:'21:20',n:4,d:'GEPROPL',nm:'Gest\u00e3o da Produ\u00e7\u00e3o e Opera\u00e7\u00f5es',p:'Eg\u00eddio',cc:'c-pi'},
+      {h:'21:20',e:'22:00',n:5,d:'ELE II',nm:'Eletiva II (EAD)',p:'Igor',cc:'c-hsce',ead:true}
+    ],
+    ter:[
+      {h:'18:40',e:'19:20',n:1,d:'GDT',nm:'Gest\u00e3o de Transportes',p:'Ricardo',cc:'c-dt'},
+      {h:'19:20',e:'20:00',n:2,d:'GDT',nm:'Gest\u00e3o de Transportes',p:'Ricardo',cc:'c-dt'},
+      {h:'20:00',e:'20:40',n:3,d:'SISL',nm:'Sistema de Informa\u00e7\u00e3o Aplicado',p:'Eg\u00eddio',cc:'c-lpc'},
+      {h:'20:40',e:'21:20',n:4,d:'SISL',nm:'Sistema de Informa\u00e7\u00e3o Aplicado',p:'Eg\u00eddio',cc:'c-lpc'},
+      {h:'21:20',e:'22:00',n:5,d:'ELE II',nm:'Eletiva II (EAD)',p:'Igor',cc:'c-hsce',ead:true}
+    ],
+    qua:[
+      {h:'18:40',e:'19:20',n:1,d:'PI III',nm:'Projeto Integrador III',p:'Antonio',cc:'c-dcu'},
+      {h:'19:20',e:'20:00',n:2,d:'PI III',nm:'Projeto Integrador III',p:'Antonio',cc:'c-dcu'},
+      {h:'20:00',e:'20:40',n:3,d:'FUCOEX',nm:'Fund. Com\u00e9rcio Exterior e E-Com.',p:'Murilo',cc:'c-pnt'},
+      {h:'20:40',e:'21:20',n:4,d:'FUCOEX',nm:'Fund. Com\u00e9rcio Exterior e E-Com.',p:'Murilo',cc:'c-pnt'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    qui:[
+      {h:'18:40',e:'19:20',n:1,d:'FUCOCU',nm:'Fund. Contabilidade e Custos',p:'Allan',cc:'c-abd'},
+      {h:'19:20',e:'20:00',n:2,d:'FUCOCU',nm:'Fund. Contabilidade e Custos',p:'Allan',cc:'c-abd'},
+      {h:'20:00',e:'20:40',n:3,d:'GDT',nm:'Gest\u00e3o de Transportes',p:'Ricardo',cc:'c-dt'},
+      {h:'20:40',e:'21:20',n:4,d:'GDT',nm:'Gest\u00e3o de Transportes',p:'Ricardo',cc:'c-dt'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ],
+    sex:[
+      {h:'18:40',e:'19:20',n:1,d:'FUCOEX',nm:'Fund. Com\u00e9rcio Exterior e E-Com.',p:'Murilo',cc:'c-pnt'},
+      {h:'19:20',e:'20:00',n:2,d:'FUCOEX',nm:'Fund. Com\u00e9rcio Exterior e E-Com.',p:'Murilo',cc:'c-pnt'},
+      {h:'20:00',e:'20:40',n:3,d:'GEPROPL',nm:'Gest\u00e3o da Produ\u00e7\u00e3o e Opera\u00e7\u00f5es',p:'Eg\u00eddio',cc:'c-pi'},
+      {h:'20:40',e:'21:20',n:4,d:'GEPROPL',nm:'Gest\u00e3o da Produ\u00e7\u00e3o e Opera\u00e7\u00f5es',p:'Eg\u00eddio',cc:'c-pi'},
+      {h:'21:20',e:'22:00',n:5,d:'AC',nm:'Ativ. Complementar',p:'--',cc:'c-ac'}
+    ]
+  }
+};
+
+// Grade ativa baseada na turma selecionada
+var SCH = TODAS_GRADES[TURMA_ATUAL] || TODAS_GRADES['I TDS B'];
+
+function getSala(discSig){ return SALA_MAP[TURMA_ATUAL] || 'Sala 10'; }
+
+var DISCS=(function(){
+  var grade=TODAS_GRADES[TURMA_ATUAL]||TODAS_GRADES['I TDS B'];
+  var seen={}, arr=[];
+  var cores={
+    'DT':{bg:'rgba(21,83,180,.1)',co:'#1553B4'},
+    'PNT Desk':{bg:'rgba(245,166,35,.12)',co:'#c47e00'},
+    'ABD':{bg:'rgba(0,110,56,.1)',co:'#006e38'},
+    'ADB':{bg:'rgba(0,110,56,.1)',co:'#006e38'},
+    'PI I':{bg:'rgba(201,0,58,.1)',co:'#c9003a'},
+    'LPC':{bg:'rgba(108,71,255,.1)',co:'#6c47ff'},
+    'DCU':{bg:'rgba(0,111,204,.1)',co:'#006fcc'},
+    'HSCE':{bg:'rgba(245,166,35,.12)',co:'#c47e00'},
+    'AC':{bg:'rgba(100,100,100,.08)',co:'#888'},
+    'AC 1':{bg:'rgba(100,100,100,.08)',co:'#888'},
+    'AC 2':{bg:'rgba(100,100,100,.08)',co:'#888'},
+    'AC 3':{bg:'rgba(100,100,100,.08)',co:'#888'},
+    'ETSE':{bg:'rgba(201,0,58,.1)',co:'#c9003a'},
+    'DEIN':{bg:'rgba(0,111,204,.1)',co:'#006fcc'},
+    'PRONO':{bg:'rgba(245,166,35,.12)',co:'#c47e00'},
+    'EI':{bg:'rgba(142,68,173,.1)',co:'#8e44ad'},
+    'PI III':{bg:'rgba(201,0,58,.1)',co:'#c9003a'},
+    'ELE II':{bg:'rgba(100,100,100,.08)',co:'#888'},
+    'CALO':{bg:'rgba(21,83,180,.1)',co:'#1553B4'},
+    'FAL':{bg:'rgba(108,71,255,.1)',co:'#6c47ff'},
+    'MKT':{bg:'rgba(0,110,56,.1)',co:'#006e38'},
+    'PROJVIDA':{bg:'rgba(245,166,35,.12)',co:'#c47e00'},
+    'SISL':{bg:'rgba(0,111,204,.1)',co:'#006fcc'},
+    'FUCOCU':{bg:'rgba(201,0,58,.1)',co:'#c9003a'},
+    'FUCOEX':{bg:'rgba(142,68,173,.1)',co:'#8e44ad'},
+    'GDT':{bg:'rgba(0,110,56,.1)',co:'#006e38'},
+    'GEPROPL':{bg:'rgba(21,83,180,.1)',co:'#1553B4'}
+  };
+  var days=['seg','ter','qua','qui','sex'];
+  for(var di=0;di<days.length;di++){
+    var aulas=grade[days[di]]||[];
+    for(var ai=0;ai<aulas.length;ai++){
+      var a=aulas[ai];
+      if(!seen[a.d]){
+        seen[a.d]=true;
+        var c=cores[a.d]||{bg:'rgba(21,83,180,.1)',co:'#1553B4'};
+        arr.push({sig:a.d,nm:a.nm,prof:a.p,bg:c.bg,co:c.co});
+      }
+    }
+  }
+  return arr;
+})();
+
+var PAREI=(function(){
+  var saved=localStorage.getItem('parei_'+TURMA_ATUAL);
+  if(saved){try{return JSON.parse(saved);}catch(e){}}
+  var obj={};
+  DISCS.forEach(function(d){obj[d.sig]={val:'',tipo:'',date:''};});
+  return obj;
+})();
+
+function salvarParei(){
+  localStorage.setItem('parei_'+TURMA_ATUAL, JSON.stringify(PAREI));
+}
+
+function trocarTurma(turma){
+  TURMA_ATUAL=turma;
+  localStorage.setItem('turma_atual',turma);
+  SCH=TODAS_GRADES[turma]||TODAS_GRADES['I TDS B'];
+  location.reload();
+}
+
+function t2m(t){var p=t.split(':');return parseInt(p[0])*60+parseInt(p[1]);}
+function nowM(){var n=new Date();return n.getHours()*60+n.getMinutes();}
+function pad(n){return n<10?'0'+n:''+n;}
+function mToHm(m){return pad(Math.floor(m/60))+':'+pad(m%60);}
+
+function realDayIdx(){
+  var d=new Date().getDay();
+  if(d===0||d===6) return -1;
+  return d-1;
+}
+
+// ======= L\u00d3GICA DO CARD PR\u00d3XIMA SALA =======
+var urgencyShownFor='';
+
+function updateProximaSala(){
+  var card=document.getElementById('proxima-sala-card');
+  var inner=document.getElementById('psc-inner');
+  if(!card||!inner) return;
+
+  var ri=realDayIdx();
+  var dk=ri>=0?DAYS[ri]:null;
+  var sched=dk?SCH[dk]:[];
+  var nm=nowM();
+  var curr=null,next=null;
+
+  for(var i=0;i<sched.length;i++){
+    var cl=sched[i];
+    if(nm>=t2m(cl.h)&&nm<t2m(cl.e)){curr=cl;}
+    if(!next&&nm<t2m(cl.h)){next=cl;}
+  }
+
+  var lbl=document.getElementById('psc-label');
+  var badge=document.getElementById('psc-badge-time');
+  var disc=document.getElementById('psc-disc');
+  var sala=document.getElementById('psc-sala');
+  var prof=document.getElementById('psc-prof');
+  var turma=document.getElementById('psc-turma');
+  var timer=document.getElementById('psc-timer');
+  var timerLbl=document.getElementById('psc-timer-lbl');
+  var prog=document.getElementById('psc-prog-bar');
+
+  card.classList.add('show');
+
+  if(!dk){
+    // Fim de semana
+    card.classList.remove('show');
+    return;
+  }
+
+  if(curr){
+    // EM AULA AGORA
+    inner.className='psc-inner psc-now';
+    lbl.textContent='\u1f7e2 EM AULA AGORA';
+    var totalDur=t2m(curr.e)-t2m(curr.h);
+    var elapsed=nm-t2m(curr.h);
+    var pct=Math.min(100,Math.round((elapsed/totalDur)*100));
+    var remMin=t2m(curr.e)-nm;
+    badge.textContent='Aula '+curr.n+'/5';
+    disc.textContent=curr.d+' \u2014 '+curr.nm;
+    sala.innerHTML='<span class="psc-sala-ico">\u1f3eb</span> '+getSala(curr.d);
+    prof.textContent='Prof. '+curr.p;
+    turma.textContent=TURMA_ATUAL;
+    timer.textContent=mToHm(remMin);
+    timerLbl.textContent='para encerrar';
+    prog.style.width=pct+'%';
+
+    // Verifica pr\u00f3xima ap\u00f3s a atual
+    var nextAfter=null;
+    for(var j=0;j<sched.length;j++){
+      if(t2m(sched[j].h)>=t2m(curr.e)){nextAfter=sched[j];break;}
+    }
+
+    // se for disciplina diferente da atual, mostrar aviso de troca
+    if(nextAfter&&nextAfter.d!==curr.d&&remMin<=15){
+      badge.innerHTML='<span class="psc-bell">\u1f514</span> Troca em '+remMin+'min';
+      disc.textContent=curr.d+' \u2192 '+nextAfter.d;
+      sala.innerHTML='<span class="psc-sala-ico">\u1f3eb</span> '+getSala(curr.d)+' \u2192 '+getSala(nextAfter.d);
+    }
+
+  } else if(next){
+    var minNext=t2m(next.h)-nm;
+    var salaNext=getSala(next.d);
+
+    if(minNext<=10){
+      // URGENTE \u2014 \u2264 10 min
+      inner.className='psc-inner psc-soon';
+      lbl.innerHTML='<span class="psc-bell">\u1f514</span> IR\u00c1 COME\u00c7AR EM BREVE!';
+      badge.textContent=minNext+'min';
+      disc.textContent=next.nm;
+      sala.innerHTML='<span class="psc-sala-ico">\u1f3eb</span> '+salaNext+' \u00b7 '+TURMA_ATUAL;
+      prof.textContent='Prof. '+next.p;
+      turma.textContent='Aula '+next.n+'/5';
+      timer.textContent=pad(minNext)+':'+pad(0);
+      timerLbl.textContent='para come\u00e7ar!';
+      prog.style.width='100%';
+
+      // Mostrar overlay urgente (apenas uma vez por aula)
+      var urgKey=next.d+next.h;
+      if(urgencyShownFor!==urgKey){
+        urgencyShownFor=urgKey;
+        showUrgency(next,salaNext,minNext);
+      }
+
+    } else if(minNext<=30){
+      // EM BREVE \u2014 \u2264 30 min
+      inner.className='psc-inner psc-soon';
+      lbl.textContent='\u23f0 ATEN\u00c7\u00c3O \u2014 PR\u00d3XIMA AULA';
+      badge.textContent='em '+minNext+' min';
+      disc.textContent=next.nm;
+      sala.innerHTML='<span class="psc-sala-ico">\u1f3eb</span> '+salaNext+' \u00b7 '+TURMA_ATUAL;
+      prof.textContent='Prof. '+next.p;
+      turma.textContent='Aula '+next.n+'/5';
+      timer.textContent=pad(Math.floor(minNext/60))+':'+pad(minNext%60);
+      timerLbl.textContent='para come\u00e7ar';
+      prog.style.width='60%';
+
+    } else {
+      // PR\u00d3XIMA NORMAL
+      inner.className='psc-inner psc-next';
+      lbl.textContent='\u1f4c5 PR\u00d3XIMA AULA';
+      badge.textContent=next.h;
+      disc.textContent=next.nm;
+      sala.innerHTML='<span class="psc-sala-ico">\u1f3eb</span> '+salaNext+' \u00b7 '+TURMA_ATUAL;
+      prof.textContent='Prof. '+next.p;
+      turma.textContent='Aula '+next.n+'/5';
+      var h=Math.floor(minNext/60),m=minNext%60;
+      timer.textContent=(h>0?h+'h ':'')+m+'min';
+      timerLbl.textContent='para come\u00e7ar';
+      prog.style.width='20%';
+    }
+  } else {
+    // Aulas encerradas
+    inner.className='psc-inner psc-next';
+    lbl.textContent='\u2705 AULAS ENCERRADAS';
+    badge.textContent='at\u00e9 amanh\u00e3';
+    disc.textContent='Todas as aulas de hoje conclu\u00eddas';
+    sala.innerHTML='<span class="psc-sala-ico">\u1f319</span> Bom descanso!';
+    prof.textContent='';
+    turma.textContent='';
+    timer.textContent='22:00';
+    timerLbl.textContent='fim das aulas';
+    prog.style.width='100%';
+  }
+}
+
+function showUrgency(aula,salaName,minRem){
+  document.getElementById('urg-emoji').textContent='\u1f514';
+  document.getElementById('urg-title').textContent='Hora de ir para a sala!';
+  document.getElementById('urg-sub').textContent='Sua pr\u00f3xima aula come\u00e7a em '+minRem+' minuto'+(minRem!==1?'s':'')+'!';
+  document.getElementById('urg-disc-name').textContent=aula.nm;
+  document.getElementById('urg-sala').textContent=salaName;
+  document.getElementById('urg-turma').textContent='I TDS B';
+  document.getElementById('urg-prof').textContent='Prof. '+aula.p+' \u00b7 Aula '+aula.n+'/5 \u00b7 '+aula.h+' \u2013 '+aula.e;
+  document.getElementById('urg-countdown').textContent=pad(minRem)+':00';
+  document.getElementById('urgency-overlay').classList.add('show');
+
+  // Atualiza contador urgente em tempo real
+  var urgInterval=setInterval(function(){
+    var nm2=nowM();
+    var rem=t2m(aula.h)-nm2;
+    if(rem<=0){
+      document.getElementById('urgency-overlay').classList.remove('show');
+      clearInterval(urgInterval);
+      return;
+    }
+    document.getElementById('urg-countdown').textContent=pad(Math.floor(rem/60))+':'+pad(rem%60);
+  },1000);
+}
+
+function closeUrgency(){
+  document.getElementById('urgency-overlay').classList.remove('show');
+}
+
+// ======= TICK PRINCIPAL =======
+function tick(){
+  var now=new Date();
+  var hh=pad(now.getHours());
+  var mm=pad(now.getMinutes());
+  var ss=pad(now.getSeconds());
+
+  var el=document.getElementById('sb-t');
+  if(el) el.textContent=hh+':'+mm;
+  var ce=document.getElementById('h-clk');
+  if(ce) ce.textContent=hh+':'+mm+':'+ss;
+
+  var de=document.getElementById('h-date');
+  if(de) de.textContent=WDS[now.getDay()]+', '+now.getDate()+' de '+MNS[now.getMonth()]+' de '+now.getFullYear();
+
+  var ge=document.getElementById('h-greet');
+  if(ge){
+    var h=now.getHours();
+    var g=(h<12?'Bom dia':h<18?'Boa tarde':'Boa noite')+', Professora!';
+    ge.textContent=g;
+  }
+  var ct=document.getElementById('chip-turma');
+  if(ct) ct.textContent='\u{1F465} '+TURMA_ATUAL;
+  var st=document.getElementById('sel-turma');
+  if(st) st.value=TURMA_ATUAL;
+  var cc2=document.getElementById('chip-curso');
+  if(cc2) cc2.textContent=(TURMA_ATUAL.indexOf('LOG')>-1?'\u1f4e6 Log\u00edstica':'\u1f393 Des. de Sistemas');
+  var ht=document.getElementById('h-turma-title');
+  if(ht) ht.textContent='Grade Semanal \u00b7 '+TURMA_ATUAL;
+
+  var ri=realDayIdx();
+  var dk=ri>=0?DAYS[ri]:null;
+  var sched=dk?SCH[dk]:[];
+  var nm=nowM();
+  var curr=null,next=null;
+  for(var i=0;i<sched.length;i++){
+    var cl=sched[i];
+    if(nm>=t2m(cl.h)&&nm<t2m(cl.e)){curr=cl;}
+    if(!next&&nm<t2m(cl.h)){next=cl;}
+  }
+
+  var nt=document.getElementById('next-tag');
+  if(nt){
+    if(!dk) nt.textContent='Sem aulas hoje';
+    else if(curr) nt.textContent='Em aula: '+curr.d;
+    else if(next) nt.textContent=next.h+' - '+next.d;
+    else nt.textContent='Encerradas hoje';
+  }
+
+  var pt=document.getElementById('parei-tag');
+  if(pt){
+    var first=null;
+    for(var j=0;j<DISCS.length;j++){if(PAREI[DISCS[j].sig]&&PAREI[DISCS[j].sig].val){first=DISCS[j];break;}}
+    if(first){var v=PAREI[first.sig].val;pt.textContent=first.sig+': '+(v.length>18?v.slice(0,18)+'...':v);}
+    else{pt.textContent='Sem registros ainda';}
+  }
+
+  // Atualiza card pr\u00f3xima sala
+  updateProximaSala();
+
+  if(document.getElementById('horarios').classList.contains('on')) renderG();
+}
+
+setInterval(tick,1000);
+
+// ======= NAVEGA\u00c7\u00c3O =======
+function go(id){
+  document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on');});
+  document.getElementById(id).classList.add('on');
+  document.getElementById('bnav').classList.remove('vis');
+}
+function goHome(){
+  document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on');});
+  document.getElementById('home').classList.add('on');
+  document.getElementById('bnav').classList.add('vis');
+  setNb('nb-home');
+  tick();
+}
+function deletarAviso(idx){
+  AVISOS_LIST.splice(idx,1);
+  localStorage.setItem('avisos_list', JSON.stringify(AVISOS_LIST));
+  renderAvisos();
+}
+
+function gos(id){
+  document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on');});
+  document.getElementById(id).classList.add('on');
+  document.getElementById('bnav').classList.add('vis');
+  setNb('nb-'+id);
+  if(id==='parei') renderP();
+  if(id==='horarios'){buildTabs();renderG();}
+  if(id==='avisos'){renderAvisos(); var b=document.getElementById('avisos-badge'); if(b)b.style.display='none';}
+  if(id==='perfil'){carregarPerfil();}
+  if(id==='perfil') renderPerfil();
+}
+function renderPerfil(){
+  // Atualiza stats de registros feitos dinamicamente
+  var count=0;
+  for(var k in PAREI){if(PAREI[k]&&PAREI[k].val&&PAREI[k].val.trim())count++;}
+  var el=document.querySelectorAll('.pf-stat-n');
+  if(el[1]) el[1].textContent=count;
+}
+function confirmLogout(){
+  document.getElementById('logout-overlay').classList.add('show');
+}
+function closeLogout(){
+  document.getElementById('logout-overlay').classList.remove('show');
+}
+function sairParaSplash(){
+  PROF_ATUAL=null; ALUNO_LOGADO=null;
+  localStorage.removeItem('prof_logado');
+  localStorage.removeItem('aluno_logado');
+  document.getElementById('bnav').classList.remove('vis');
+  document.getElementById('anav').classList.remove('vis');
+  go('splash');
+}
+function doLogout(){
+  document.getElementById('logout-overlay').classList.remove('show');
+  document.getElementById('bnav').classList.remove('vis');
+  document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on');});
+  document.getElementById('login').classList.add('on');
+}
+function setNb(id){
+  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
+  var b=document.getElementById(id);
+  if(b) b.classList.add('on');
+}
+
+// ======= GRADE HOR\u00c1RIA =======
+var curD=(function(){var i=realDayIdx();return i>=0?i:0;})();
+
+// M\u00eas abreviado de cada dia da semana (\u00fatil quando a semana cruza meses)
+var DMONTHS=(function(){
+  var hoje=new Date();
+  var dow=hoje.getDay();
+  if(dow===0){dow=1;hoje.setDate(hoje.getDate()+1);}
+  if(dow===6){dow=1;hoje.setDate(hoje.getDate()+2);}
+  var seg=new Date(hoje);
+  seg.setDate(hoje.getDate()-(dow-1));
+  var meses=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  var arr=[];
+  for(var i=0;i<5;i++){
+    var d=new Date(seg);
+    d.setDate(seg.getDate()+i);
+    arr.push(meses[d.getMonth()]);
+  }
+  return arr;
+})();
+
+function buildTabs(){
+  var w=document.getElementById('dtabs');
+  if(!w) return;
+  w.innerHTML='';
+  var ri=realDayIdx();
+  for(var i=0;i<DAYS.length;i++){
+    var isTd=(i===ri);
+    var btn=document.createElement('button');
+    btn.className='dtab'+(isTd?' td':'')+(i===curD?' on':'');
+    btn.innerHTML='<div class="dl">'+DNAMES[i].slice(0,3)+'</div>'
+      +'<div class="dn">'+DDATES[i]+'</div>'
+      +'<div style="font-size:9px;font-weight:600;opacity:.65;margin-top:1px">'+DMONTHS[i]+'</div>';
+    (function(idx){btn.onclick=function(){curD=idx;buildTabs();renderG();};})(i);
+    w.appendChild(btn);
+  }
+}
+
+function renderG(){
+  var sched=SCH[DAYS[curD]];
+  var ri=realDayIdx();
+  var isToday=(curD===ri);
+  var nm=nowM();
+  var sub=document.getElementById('sbsub');
+  if(sub){sub.textContent=DFULL[curD]+' '+(isToday?'(hoje)':'')+'  |  5 aulas  |  18:40 - 22:00';}
+  var sbn=document.getElementById('sbn');
+  var cursoNm=(TURMA_ATUAL.indexOf('LOG')>=0)?'Log\u00edstica':'Desenvolvimento de Sistemas';
+  if(sbn){sbn.textContent=(SALA_MAP[TURMA_ATUAL]||'Sala --')+' \u00b7 '+cursoNm+' \u00b7 '+TURMA_ATUAL;}
+  var ttl=document.getElementById('h-turma-title');
+  if(ttl){ttl.textContent='Grade Semanal \u00b7 '+TURMA_ATUAL;}
+  var tb=document.getElementById('gtbody');
+  if(!tb) return;
+  tb.innerHTML='';
+  for(var i=0;i<sched.length;i++){
+    var cl=sched[i];
+    var isN=isToday&&nm>=t2m(cl.h)&&nm<t2m(cl.e);
+    var isDn=isToday&&nm>=t2m(cl.e);
+    var tr=document.createElement('tr');
+    if(isN) tr.className='rnow';
+    var op=isDn?'0.5':'1';
+    var statusCell;
+    if(isToday){
+      if(isDn) statusCell='<td style="font-size:11px;color:#27ae60;font-weight:700">Conclu\u00edda</td>';
+      else if(isN) statusCell='<td style="font-size:11px;color:#1553B4;font-weight:800">Em aula</td>';
+      else statusCell='<td style="font-size:11px;color:#6b7c99">Em breve</td>';
+    } else {
+      statusCell='<td style="font-size:11px;color:#c0c9da">--</td>';
+    }
+    tr.innerHTML='<td style="opacity:'+op+'">'+(isN?'<span class="nd"></span>':'')+cl.h+'-'+cl.e+'</td>'
+      +'<td>'+cl.n+'</td>'
+      +'<td><span class="dch '+cl.cc+'">'+cl.d+'</span>'+(cl.ead?'<br><span class="ead-t">EAD</span>':'')+'</td>'
+      +'<td style="font-size:11px;color:#6b7c99;opacity:'+op+'">'+cl.p+'</td>'
+      +statusCell;
+    tb.appendChild(tr);
+  }
+}
+
+// ======= ANDAMENTO (ONDE PAREI) =======
+function renderP(){
+  var w=document.getElementById('plist');
+  if(!w) return;
+  w.innerHTML='';
+  for(var i=0;i<DISCS.length;i++){
+    var d=DISCS[i];
+    var pd=PAREI[d.sig]||{};
+    var has=pd.val&&pd.val.trim();
+    var card=document.createElement('div');
+    card.className='pc';
+    card.style.borderLeftColor=d.co;
+    var inner='<div class="pc-top">'
+      +'<div class="pc-sig" style="background:'+d.bg+';color:'+d.co+'">'+d.sig+'</div>'
+      +'<div style="flex:1"><div class="pc-nm">'+d.nm+'</div><div class="pc-pr">Prof. '+d.prof+'</div></div>'
+      +'<button class="pc-ed" onclick="openM(\''+d.sig+'\',\''+d.nm+'\',\''+d.prof+'\')">Editar</button>'
+      +'</div>'
+      +'<div class="pc-box"><div class="pcb-lbl">Onde paramos</div>';
+    if(has){
+      inner+='<div class="pcb-val">'+(pd.tipo?'<span style="font-size:11px;color:#6b7c99">'+pd.tipo+'</span><br>':'')+pd.val+'</div>'
+        +'<div class="pcb-tip">Registrado: '+pd.date+'</div>';
+    } else {
+      inner+='<div class="pcb-emp">Nenhum registro ainda.</div>';
+    }
+    inner+='</div>'
+      +'<button class="pc-btn'+(has?' upd':'')+'" onclick="openM(\''+d.sig+'\',\''+d.nm+'\',\''+d.prof+'\')">'
+      +(has?'Atualizar registro':'Registrar onde paramos')+'</button>';
+    card.innerHTML=inner;
+    w.appendChild(card);
+  }
+}
+
+// ======= MODAL ANDAMENTO =======
+var mD='';
+function openM(sig,nm2,prof){
+  mD=sig;
+  document.getElementById('m-sub').textContent='Prof. '+prof;
+  var se=document.getElementById('m-sig');
+  var d=null;
+  for(var i=0;i<DISCS.length;i++){if(DISCS[i].sig===sig){d=DISCS[i];break;}}
+  if(!d) d={bg:'rgba(21,83,180,.1)',co:'#1553B4'};
+  se.textContent=sig; se.style.background=d.bg; se.style.color=d.co;
+  document.getElementById('m-nm').textContent=nm2;
+  var pd=PAREI[sig]||{};
+  document.getElementById('m-det').value=pd.val||'';
+  var opts=document.querySelectorAll('.sopt');
+  for(var j=0;j<opts.length;j++){
+    opts[j].classList.toggle('sel',!!(pd.tipo&&opts[j].textContent.trim()===pd.tipo.trim()));
+  }
+  document.getElementById('modal').classList.add('open');
+}
+function closeM(){document.getElementById('modal').classList.remove('open');}
+function selO(el){document.querySelectorAll('.sopt').forEach(function(o){o.classList.remove('sel');});el.classList.add('sel');}
+function saveM(){
+  var det=document.getElementById('m-det').value.trim();
+  var sel=document.querySelector('.sopt.sel');
+  var tipo=sel?sel.textContent.trim():'';
+  if(!det&&!tipo){alert('Descreva onde parou ou selecione o tipo!');return;}
+  var now=new Date();
+  var dt=pad(now.getDate())+'/'+pad(now.getMonth()+1)+' as '+pad(now.getHours())+':'+pad(now.getMinutes());
+  if(!PAREI[mD]) PAREI[mD]={};
+  PAREI[mD]={val:det,tipo:tipo,date:dt};
+  salvarParei();
+  closeM();
+  var t=document.createElement('div');
+  t.textContent='Registro salvo com sucesso!';
+  t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#27ae60;color:#fff;padding:12px 22px;border-radius:24px;font-size:13px;font-weight:800;z-index:999;box-shadow:0 8px 24px rgba(39,174,96,.4);white-space:nowrap';
+  document.body.appendChild(t);
+  setTimeout(function(){t.remove();},2500);
+  if(document.getElementById('parei').classList.contains('on')) renderP();
+  tick();
+}
+function swM(id,el){
+  document.querySelectorAll('.mtab').forEach(function(t){t.classList.remove('on');});
+  el.classList.add('on');
+  document.querySelectorAll('.mpanel').forEach(function(p){p.classList.remove('on');});
+  document.getElementById(id).classList.add('on');
+}
+
+// ======= MAPA COMPLETO DE DISCIPLINAS POR TURMA =======
+var DISC_MAP = {
+  'I TDS B':{
+    curso:'Desenvolvimento de Sistemas', ic:'\u1f4bb', modulo:'1\u00ba M\u00f3dulo',
+    discs:[
+      {sig:'DT',nm:'Design Thinking',prof:'Alexandra',bg:'rgba(21,83,180,.1)',co:'#1553B4',dias:'Segunda'},
+      {sig:'PNT Desk',nm:'Prog. em Novas Tec. (Desktop)',prof:'Marcos',bg:'rgba(245,166,35,.12)',co:'#c47e00',dias:'Seg & Sex'},
+      {sig:'ADB',nm:'Adm. de Banco de Dados',prof:'Will',bg:'rgba(0,110,56,.1)',co:'#006e38',dias:'Ter & Qua'},
+      {sig:'LPC',nm:'L\u00f3gica e Pensamento Computacional',prof:'Marcos',bg:'rgba(108,71,255,.1)',co:'#6c47ff',dias:'Qua, Qui & Sex'},
+      {sig:'DCU',nm:'Design Centrado no Usu\u00e1rio',prof:'Grazi',bg:'rgba(0,111,204,.1)',co:'#006fcc',dias:'Qui'},
+      {sig:'PI I',nm:'Projeto Integrador I',prof:'Grazi',bg:'rgba(201,0,58,.1)',co:'#c9003a',dias:'Ter\u00e7a'},
+      {sig:'HSCE',nm:'HSCE \u2014 Hab. Socioemoc. Empreendedor',prof:'Gustavo (EAD)',bg:'rgba(245,166,35,.12)',co:'#c47e00',dias:'Seg & Ter (EAD)'},
+      {sig:'AC',nm:'Atividades Complementares',prof:'\u2013',bg:'rgba(100,100,100,.08)',co:'#888',dias:'Qua, Qui & Sex'}
+    ]
+  },
+  'I TDS A':{
+    curso:'Desenvolvimento de Sistemas', ic:'\u1f4bb', modulo:'1\u00ba M\u00f3dulo',
+    discs:[
+      {sig:'PNT Desk',nm:'Prog. em Novas Tec. (Desktop)',prof:'Marcos',bg:'rgba(245,166,35,.12)',co:'#c47e00',dias:'Seg & Ter'},
+      {sig:'ABD',nm:'Adm. de Banco de Dados',prof:'Will',bg:'rgba(0,110,56,.1)',co:'#006e38',dias:'Segunda'},
+      {sig:'LPC',nm:'L\u00f3gica e Pensamento Computacional',prof:'Marcos',bg:'rgba(108,71,255,.1)',co:'#6c47ff',dias:'Ter, Qui & Sex'},
+      {sig:'DCU',nm:'Design Centrado no Usu\u00e1rio',prof:'Grazi',bg:'rgba(0,111,204,.1)',co:'#006fcc',dias:'Quarta'},
+      {sig:'DT',nm:'Design Thinking',prof:'Alexandra',bg:'rgba(21,83,180,.1)',co:'#1553B4',dias:'Quinta'},
+      {sig:'PI I',nm:'Projeto Integrador I',prof:'Will',bg:'rgba(201,0,58,.1)',co:'#c9003a',dias:'Sexta'},
+      {sig:'HSCE',nm:'HSCE \u2014 Hab. Socioemoc. Empreendedor',prof:'Gustavo (EAD)',bg:'rgba(245,166,35,.12)',co:'#c47e00',dias:'Seg & Ter (EAD)'},
+      {sig:'AC',nm:'Atividades Complementares',prof:'\u2013',bg:'rgba(100,100,100,.08)',co:'#888',dias:'Qua, Qui & Sex'}
+    ]
+  },
+  'III TDS U':{
+    curso:'Desenvolvimento de Sistemas', ic:'\u1f4bb', modulo:'3\u00ba M\u00f3dulo',
+    discs:[
+      {sig:'ETSE',nm:'\u00c9tica e Seguran\u00e7a da Informa\u00e7\u00e3o',prof:'Grazi',bg:'rgba(201,0,58,.1)',co:'#c9003a',dias:'Segunda'},
+      {sig:'DEIN',nm:'Design de Interfaces Mobile',prof:'Grazi',bg:'rgba(0,111,204,.1)',co:'#006fcc',dias:'Segunda'},
+      {sig:'PRONO',nm:'Prog. em Novas Tec. (Mobile)',prof:'Grazi',bg:'rgba(245,166,35,.12)',co:'#c47e00',dias:'Ter, Qua, Qui & Sex'},
+      {sig:'ADB',nm:'Adm. de Banco de Dados',prof:'Will',bg:'rgba(0,110,56,.1)',co:'#006e38',dias:'Ter & Qui'},
+      {sig:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',prof:'Will',bg:'rgba(142,68,173,.1)',co:'#8e44ad',dias:'Quarta'},
+      {sig:'PI III',nm:'Projeto Integrador III',prof:'Grazi',bg:'rgba(201,0,58,.1)',co:'#c9003a',dias:'Sexta'},
+      {sig:'ELE II',nm:'Eletiva II',prof:'Gustavo (EAD)',bg:'rgba(100,100,100,.08)',co:'#888',dias:'Seg & Ter (EAD)'},
+      {sig:'AC',nm:'Atividades Complementares',prof:'\u2013',bg:'rgba(100,100,100,.08)',co:'#888',dias:'Qua, Qui & Sex'}
+    ]
+  },
+  'I LOG A':{
+    curso:'Log\u00edstica', ic:'\u1f69a', modulo:'1\u00ba M\u00f3dulo',
+    discs:[
+      {sig:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',prof:'Joaquim',bg:'rgba(21,83,180,.1)',co:'#1553B4',dias:'Seg & Ter'},
+      {sig:'FAL',nm:'Fundamentos de Adm. e Log\u00edstica',prof:'Murilo',bg:'rgba(108,71,255,.1)',co:'#6c47ff',dias:'Seg & Ter'},
+      {sig:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',prof:'Ricardo',bg:'rgba(0,110,56,.1)',co:'#006e38',dias:'Qua & Sex'},
+      {sig:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',prof:'Alexandra',bg:'rgba(142,68,173,.1)',co:'#8e44ad',dias:'Qui & Sex'},
+      {sig:'PI I',nm:'Projeto Integrador I',prof:'Eg\u00eddio',bg:'rgba(201,0,58,.1)',co:'#c9003a',dias:'Quinta'},
+      {sig:'PROJVIDA',nm:'Projeto de Vida',prof:'Ricardo',bg:'rgba(245,166,35,.12)',co:'#c47e00',dias:'Quarta'},
+      {sig:'HSCE',nm:'HSCE \u2014 Hab. Socioemoc. Empreendedor',prof:'Ana Karla (EAD)',bg:'rgba(245,166,35,.12)',co:'#c47e00',dias:'Seg & Ter (EAD)'},
+      {sig:'AC',nm:'Atividades Complementares',prof:'\u2013',bg:'rgba(100,100,100,.08)',co:'#888',dias:'Qua, Qui & Sex'}
+    ]
+  },
+  'I LOG B':{
+    curso:'Log\u00edstica', ic:'\u1f69a', modulo:'1\u00ba M\u00f3dulo',
+    discs:[
+      {sig:'FAL',nm:'Fundamentos de Adm. e Log\u00edstica',prof:'Murilo',bg:'rgba(108,71,255,.1)',co:'#6c47ff',dias:'Seg & Qui'},
+      {sig:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',prof:'Joaquim',bg:'rgba(21,83,180,.1)',co:'#1553B4',dias:'Ter & Sex'},
+      {sig:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',prof:'Ricardo',bg:'rgba(0,110,56,.1)',co:'#006e38',dias:'Seg & Qui'},
+      {sig:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',prof:'Alexandra',bg:'rgba(142,68,173,.1)',co:'#8e44ad',dias:'Ter & Qua'},
+      {sig:'PI I',nm:'Projeto Integrador I',prof:'Eg\u00eddio',bg:'rgba(201,0,58,.1)',co:'#c9003a',dias:'Quarta'},
+      {sig:'PROJVIDA',nm:'Projeto de Vida',prof:'Joaquim',bg:'rgba(245,166,35,.12)',co:'#c47e00',dias:'Sexta'},
+      {sig:'HSCE',nm:'HSCE \u2014 Hab. Socioemoc. Empreendedor',prof:'Ana Karla (EAD)',bg:'rgba(245,166,35,.12)',co:'#c47e00',dias:'Seg & Ter (EAD)'},
+      {sig:'AC',nm:'Atividades Complementares',prof:'\u2013',bg:'rgba(100,100,100,.08)',co:'#888',dias:'Qua, Qui & Sex'}
+    ]
+  },
+  'I LOG C':{
+    curso:'Log\u00edstica', ic:'\u1f69a', modulo:'1\u00ba M\u00f3dulo',
+    discs:[
+      {sig:'CALO',nm:'C\u00e1lculos B\u00e1sicos em Log\u00edstica',prof:'Ricardo',bg:'rgba(21,83,180,.1)',co:'#1553B4',dias:'Seg & Sex'},
+      {sig:'FAL',nm:'Fundamentos de Adm. e Log\u00edstica',prof:'Murilo',bg:'rgba(108,71,255,.1)',co:'#6c47ff',dias:'Ter & Qui'},
+      {sig:'EI',nm:'Empreendedorismo e Inova\u00e7\u00e3o',prof:'Alexandra',bg:'rgba(142,68,173,.1)',co:'#8e44ad',dias:'Seg, Ter & Qua'},
+      {sig:'MKT',nm:'Marketing Aplicado \u00e0 Log\u00edstica',prof:'Eg\u00eddio',bg:'rgba(0,110,56,.1)',co:'#006e38',dias:'Qua & Qui'},
+      {sig:'PI I',nm:'Projeto Integrador I',prof:'Alexandra',bg:'rgba(201,0,58,.1)',co:'#c9003a',dias:'Ter\u00e7a'},
+      {sig:'PROJVIDA',nm:'Projeto de Vida',prof:'Alexandra',bg:'rgba(245,166,35,.12)',co:'#c47e00',dias:'Sexta'},
+      {sig:'HSCE',nm:'HSCE \u2014 Hab. Socioemoc. Empreendedor',prof:'Ana Karla (EAD)',bg:'rgba(245,166,35,.12)',co:'#c47e00',dias:'Seg & Ter (EAD)'},
+      {sig:'AC',nm:'Atividades Complementares',prof:'\u2013',bg:'rgba(100,100,100,.08)',co:'#888',dias:'Qua, Qui & Sex'}
+    ]
+  },
+  'III LOG A':{
+    curso:'Log\u00edstica', ic:'\u1f69a', modulo:'3\u00ba M\u00f3dulo',
+    discs:[
+      {sig:'SISL',nm:'Sistema de Informa\u00e7\u00e3o Aplicado a Log.',prof:'Eg\u00eddio',bg:'rgba(0,111,204,.1)',co:'#006fcc',dias:'Segunda'},
+      {sig:'FUCOCU',nm:'Fund. de Contabilidade e Custos',prof:'Allan',bg:'rgba(201,0,58,.1)',co:'#c9003a',dias:'Seg & Qui'},
+      {sig:'GEPROPL',nm:'Gest\u00e3o da Produ\u00e7\u00e3o e Opera\u00e7\u00f5es Log.',prof:'Eg\u00eddio',bg:'rgba(21,83,180,.1)',co:'#1553B4',dias:'Ter & Sex'},
+      {sig:'PI III',nm:'Projeto Integrador III',prof:'Ricardo',bg:'rgba(201,0,58,.1)',co:'#c9003a',dias:'Ter\u00e7a'},
+      {sig:'FUCOEX',nm:'Fund. do Com\u00e9rcio Exterior e E-Com.',prof:'Murilo',bg:'rgba(142,68,173,.1)',co:'#8e44ad',dias:'Qua & Sex'},
+      {sig:'GDT',nm:'Gest\u00e3o de Transportes',prof:'Antonio',bg:'rgba(0,110,56,.1)',co:'#006e38',dias:'Qua & Qui'},
+      {sig:'ELE II',nm:'Eletiva II',prof:'Cleide (EAD)',bg:'rgba(100,100,100,.08)',co:'#888',dias:'Seg & Ter (EAD)'},
+      {sig:'AC',nm:'Atividades Complementares',prof:'\u2013',bg:'rgba(100,100,100,.08)',co:'#888',dias:'Qua, Qui & Sex'}
+    ]
+  },
+  'III LOG B':{
+    curso:'Log\u00edstica', ic:'\u1f69a', modulo:'3\u00ba M\u00f3dulo',
+    discs:[
+      {sig:'FUCOCU',nm:'Fund. de Contabilidade e Custos',prof:'Allan',bg:'rgba(201,0,58,.1)',co:'#c9003a',dias:'Seg & Qui'},
+      {sig:'GEPROPL',nm:'Gest\u00e3o da Produ\u00e7\u00e3o e Opera\u00e7\u00f5es Log.',prof:'Eg\u00eddio',bg:'rgba(21,83,180,.1)',co:'#1553B4',dias:'Seg & Sex'},
+      {sig:'GDT',nm:'Gest\u00e3o de Transportes',prof:'Ricardo',bg:'rgba(0,110,56,.1)',co:'#006e38',dias:'Ter & Qui'},
+      {sig:'SISL',nm:'Sistema de Informa\u00e7\u00e3o Aplicado a Log.',prof:'Eg\u00eddio',bg:'rgba(0,111,204,.1)',co:'#006fcc',dias:'Ter\u00e7a'},
+      {sig:'PI III',nm:'Projeto Integrador III',prof:'Antonio',bg:'rgba(201,0,58,.1)',co:'#c9003a',dias:'Quarta'},
+      {sig:'FUCOEX',nm:'Fund. do Com\u00e9rcio Exterior e E-Com.',prof:'Murilo',bg:'rgba(142,68,173,.1)',co:'#8e44ad',dias:'Qua & Sex'},
+      {sig:'ELE II',nm:'Eletiva II',prof:'Igor (EAD)',bg:'rgba(100,100,100,.08)',co:'#888',dias:'Seg & Ter (EAD)'},
+      {sig:'AC',nm:'Atividades Complementares',prof:'\u2013',bg:'rgba(100,100,100,.08)',co:'#888',dias:'Qua, Qui & Sex'}
+    ]
+  }
+};
+
+function renderDiscs(){
+  var info=DISC_MAP[TURMA_ATUAL];
+  if(!info) return;
+  var sala=SALA_MAP[TURMA_ATUAL]||'';
+  document.getElementById('disc-ti').textContent=info.curso;
+  document.getElementById('disc-ic').textContent=info.ic;
+  document.getElementById('disc-su').textContent='ETE Luiz Alves Lacerda \u00b7 '+TURMA_ATUAL+' \u00b7 '+sala;
+  var html='<div style="display:flex;gap:7px;margin-bottom:14px">'
+    +'<div class="mtab on" style="flex:1;padding:9px 5px;border-radius:13px;border:2.5px solid var(--blue);background:var(--blue);box-shadow:0 2px 10px rgba(21,83,180,.2);text-align:center">'
+    +'<div style="font-size:15px;font-weight:900;color:#fff">'+info.modulo+'</div>'
+    +'<div style="font-size:9px;color:rgba(255,255,255,.8);font-weight:700;text-transform:uppercase;letter-spacing:.4px">M\u00f3dulo Ativo</div></div></div>';
+  html+='<div class="mpanel on" style="display:flex;flex-direction:column;gap:8px">';
+  html+='<div class="mhdr"><div class="mhd" style="background:var(--blue)"></div><div class="mht">'+info.modulo+' \u2014 '+info.curso+'</div><span class="mhc">'+info.discs.length+' disciplinas</span></div>';
+  for(var i=0;i<info.discs.length;i++){
+    var d=info.discs[i];
+    html+='<div class="dc" style="border-left-color:'+d.co+'" onclick="openM(\''+d.sig.replace(/'/g,"\\'")+'\',' +
+      '\''+d.nm.replace(/'/g,"\\'")+'\',' +
+      '\''+d.prof.replace(/'/g,"\\'")+'\')">'+
+      '<div class="dsig" style="background:'+d.bg+';color:'+d.co+'">'+d.sig+'</div>'+
+      '<div class="di"><div class="dn2">'+d.nm+'</div><div class="dp">\u1f468\u200d\u1f3eb '+d.prof+' \u00b7 '+d.dias+'</div></div></div>';
+  }
+  html+='</div>';
+  document.getElementById('disc-body').innerHTML=html;
+}
+
+// ============================================================
+// \u00c1REA DO ALUNO \u2014 L\u00d3GICA COMPLETA
+// ============================================================
+
+// Banco de alunos no localStorage
+function getAlunos(){
+  try{return JSON.parse(localStorage.getItem('alunos_db')||'[]');}catch(e){return [];}
+}
+function saveAlunos(arr){ localStorage.setItem('alunos_db', JSON.stringify(arr)); }
+
+var ALUNO_LOGADO = (function(){
+  try{return JSON.parse(localStorage.getItem('aluno_logado')||'null');}catch(e){return null;}
+})();
+
+// ----- CADASTRO -----
+function cadastrarAluno(){
+  var nome   = document.getElementById('cad-nome').value.trim();
+  var turma  = document.getElementById('cad-turma').value;
+  var email  = document.getElementById('cad-email').value.trim();
+  var senha  = document.getElementById('cad-senha').value;
+  var senha2 = document.getElementById('cad-senha2').value;
+  if(!nome||!turma||!email||!senha){ mostrarToast('Preencha todos os campos!','#e74c3c'); return; }
+  if(senha!==senha2){ mostrarToast('As senhas nao coincidem!','#e74c3c'); return; }
+  if(senha.length<4){ mostrarToast('Senha muito curta (min. 4)!','#e74c3c'); return; }
+  ALUNO_LOGADO = {nome:nome, turma:turma, email:email, senha:senha, foto:''};
+  localStorage.setItem('aluno_logado', JSON.stringify(ALUNO_LOGADO));
+  mostrarToast('Cadastro realizado! Entrando...','#27ae60');
+  setTimeout(function(){ entrarAreaAluno(); }, 800);
+}
+
+// ----- LOGIN -----
+function loginAluno(){
+  var email = document.getElementById('login-aluno-email').value.trim();
+  var senha = document.getElementById('login-aluno-senha').value;
+  if(!email||!senha){ mostrarToast('Preencha e-mail e senha!','#e74c3c'); return; }
+  var alunos = getAlunos();
+  var aluno = alunos.find(function(a){ return a.email===email && a.senha===senha; });
+  if(!aluno){
+    aluno = {nome:email.split('@')[0], turma:'I TDS B', email:email, senha:senha, foto:''};
+  }
+  ALUNO_LOGADO = aluno;
+  localStorage.setItem('aluno_logado', JSON.stringify(aluno));
+  entrarAreaAluno();
+}
+
+function entrarAreaAluno(){
+  if(!ALUNO_LOGADO) return;
+  // Esconde nav do professor, mostra nav do aluno
+  document.getElementById('bnav').classList.remove('vis');
+  document.getElementById('anav').classList.add('vis');
+  atualizarHeaderAluno();
+  renderAlunoHome();
+  document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on');});
+  document.getElementById('aluno-home').classList.add('on');
+  setAnb('anb-home');
+}
+
+function atualizarHeaderAluno(){
+  var a = ALUNO_LOGADO;
+  if(!a) return;
+  var primeiroNome = a.nome.split(' ')[0];
+  var h = new Date().getHours();
+  var saud = h<12?'Bom dia, ':h<18?'Boa tarde, ':'Boa noite, ';
+  document.getElementById('ah-hi').textContent = saud + primeiroNome + '!';
+  document.getElementById('ah-date').textContent = new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('ah-turma-label').textContent = a.turma + ' \u00b7 ' + (SALA_MAP[a.turma]||'');
+  document.getElementById('ah-chip-turma').textContent = '\u1f465 ' + a.turma;
+  document.getElementById('ah-chip-sala').textContent = '\u1f3eb ' + (SALA_MAP[a.turma]||'\u2014');
+  // foto
+  var avatarBtn = document.getElementById('ah-avatar-btn');
+  if(avatarBtn){
+    if(a.foto) avatarBtn.innerHTML='<img src="'+a.foto+'" style="width:36px;height:36px;object-fit:cover;border-radius:50%"/>';
+    else avatarBtn.textContent='\u1f393';
+  }
+}
+
+// ----- HOME ALUNO -----
+function renderAlunoHome(){
+  renderProxAula();
+  renderAvisosAluno();
+  renderHojeAluno();
+}
+
+function renderProxAula(){
+  var a = ALUNO_LOGADO; if(!a) return;
+  var grade = TODAS_GRADES[a.turma];
+  if(!grade) return;
+  var card = document.getElementById('ah-prox-card'); if(!card) return;
+  var ri = realDayIdx();
+  if(ri<0){ card.style.display='none'; return; }
+  var dk = DAYS[ri];
+  var sched = grade[dk]||[];
+  var nm = nowM();
+  var curr=null, next=null;
+  for(var i=0;i<sched.length;i++){
+    var cl=sched[i];
+    if(nm>=t2m(cl.h)&&nm<t2m(cl.e)) curr=cl;
+    if(!next&&nm<t2m(cl.h)) next=cl;
+  }
+  card.style.display='block';
+  var inner = card.querySelector('.prox-inner');
+  var sala = SALA_MAP[a.turma]||'\u2014';
+  if(curr){
+    card.className='prox-card prox-now';
+    document.getElementById('ah-prox-lbl').textContent='\u1f7e2 EM AULA AGORA';
+    document.getElementById('ah-prox-disc').textContent=curr.d+' \u2014 '+curr.nm;
+    document.getElementById('ah-prox-sala').innerHTML='<span>\u1f3eb</span> '+sala;
+    document.getElementById('ah-prox-prof').textContent='Prof. '+curr.p;
+    document.getElementById('ah-prox-aula').textContent='Aula '+curr.n+'/5';
+    var rem=t2m(curr.e)-nm;
+    document.getElementById('ah-prox-timer').textContent=mToHm(rem);
+    document.getElementById('ah-prox-lbl2').textContent='para encerrar';
+    var pct=Math.min(100,Math.round(((nm-t2m(curr.h))/(t2m(curr.e)-t2m(curr.h)))*100));
+    document.getElementById('ah-prox-bar').style.width=pct+'%';
+  } else if(next){
+    var min2=t2m(next.h)-nm;
+    card.className='prox-card '+(min2<=30?'prox-soon':'prox-next');
+    document.getElementById('ah-prox-lbl').textContent=min2<=10?'\u1f514 COME\u00c7ANDO EM BREVE!':'\u1f4c5 PR\u00d3XIMA AULA';
+    document.getElementById('ah-prox-disc').textContent=next.nm;
+    document.getElementById('ah-prox-sala').innerHTML='<span>\u1f3eb</span> '+sala+' \u00b7 Aula '+next.n+'/5';
+    document.getElementById('ah-prox-prof').textContent='Prof. '+next.p;
+    document.getElementById('ah-prox-aula').textContent=next.h+' \u2013 '+next.e;
+    var h2=Math.floor(min2/60),m2=min2%60;
+    document.getElementById('ah-prox-timer').textContent=(h2>0?h2+'h ':'')+m2+'min';
+    document.getElementById('ah-prox-lbl2').textContent='para come\u00e7ar';
+    document.getElementById('ah-prox-bar').style.width=(min2<=30?Math.round((1-min2/30)*60):20)+'%';
+  } else {
+    card.className='prox-card prox-next';
+    document.getElementById('ah-prox-lbl').textContent='\u2705 FIM DAS AULAS';
+    document.getElementById('ah-prox-disc').textContent='Todas as aulas de hoje conclu\u00eddas';
+    document.getElementById('ah-prox-sala').innerHTML='<span>\u1f319</span> Bom descanso!';
+    document.getElementById('ah-prox-prof').textContent='';
+    document.getElementById('ah-prox-aula').textContent='';
+    document.getElementById('ah-prox-timer').textContent='22:00';
+    document.getElementById('ah-prox-lbl2').textContent='encerramento';
+    document.getElementById('ah-prox-bar').style.width='100%';
+  }
+}
+
+function renderAvisosAluno(){
+  var a=ALUNO_LOGADO; if(!a) return;
+  var el=document.getElementById('ah-avisos-list'); if(!el) return;
+  var avisos=AVISOS_LIST.filter(function(av){return av.dest==='todas'||av.dest===a.turma;});
+  if(avisos.length===0){ el.innerHTML='<div style="text-align:center;padding:16px;color:#c0c9da;font-size:13px">Nenhum aviso no momento</div>'; return; }
+  var html='';
+  for(var i=0;i<Math.min(3,avisos.length);i++){
+    var av=avisos[i];
+    html+='<div class="aa-card aa-new"><div class="aa-ic">'+av.ic+'</div>'
+      +'<div style="flex:1"><div class="aa-ttl">'+av.titulo+'</div>'
+      +'<div class="aa-body">'+av.corpo+'</div>'
+      +'<div class="aa-time">'+av.time+'</div></div></div>';
+  }
+  if(avisos.length>3) html+='<div style="text-align:center;padding:8px;font-size:12px;color:#27ae60;font-weight:700;cursor:pointer" onclick="goAlunoScreen(\'aluno-avisos\')">Ver todos os '+avisos.length+' avisos \u2192</div>';
+  el.innerHTML=html;
+}
+
+function renderHojeAluno(){
+  var a=ALUNO_LOGADO; if(!a) return;
+  var el=document.getElementById('ah-hoje-list'); if(!el) return;
+  var grade=TODAS_GRADES[a.turma]; if(!grade) return;
+  var ri=realDayIdx();
+  var dk=ri>=0?DAYS[ri]:DAYS[0];
+  var sched=grade[dk]||[];
+  var nm=nowM();
+  if(sched.length===0){ el.innerHTML='<div style="text-align:center;padding:16px;color:#c0c9da;font-size:13px">Sem aulas hoje</div>'; return; }
+  var html='';
+  for(var i=0;i<sched.length;i++){
+    var cl=sched[i];
+    var isNow=ri>=0&&nm>=t2m(cl.h)&&nm<t2m(cl.e);
+    var isDone=ri>=0&&nm>=t2m(cl.e);
+    html+='<div class="ag-aula-card'+(isNow?' now':isDone?' done':'')+'">'
+      +'<div class="ag-num'+(isNow?' now':'')+'">' +cl.n+'</div>'
+      +'<div class="ag-info"><div class="ag-disc">'+cl.nm+(isNow?'<span class="ag-now-badge">Agora</span>':'')+'</div>'
+      +'<div class="ag-meta">Prof. '+cl.p+(cl.ead?' \u00b7 EAD':'')+'</div></div>'
+      +'<div class="ag-hora'+(isNow?' now':'')+'">'+cl.h+'<br><span style="font-size:9px;color:#c0c9da">'+cl.e+'</span></div></div>';
+  }
+  el.innerHTML=html;
+}
+
+// ----- GRADE ALUNO -----
+var alunoGradeDia=0;
+
+function renderGradeAluno(){
+  var a=ALUNO_LOGADO; if(!a) return;
+  document.getElementById('ag-turma-badge').textContent=a.turma;
+  var tabs=document.getElementById('ag-day-tabs'); if(!tabs) return;
+  var ri=realDayIdx();
+  tabs.innerHTML='';
+  for(var i=0;i<DAYS.length;i++){
+    var isTd=(i===ri);
+    var btn=document.createElement('button');
+    btn.className='ag-dtab'+(isTd?' td':'')+(i===alunoGradeDia?' on':'');
+    btn.innerHTML='<div style="font-size:9px;font-weight:700;opacity:.7">'+DNAMES[i].slice(0,3).toUpperCase()+'</div><div style="font-size:15px;font-weight:900">'+DDATES[i]+'</div>';
+    (function(idx){btn.onclick=function(){alunoGradeDia=idx;renderGradeAluno();};})(i);
+    tabs.appendChild(btn);
+  }
+  var dk=DAYS[alunoGradeDia];
+  var grade=TODAS_GRADES[a.turma]||{};
+  var sched=grade[dk]||[];
+  var nm=nowM();
+  var isToday=(alunoGradeDia===ri);
+  document.getElementById('ag-sala-label').textContent=(SALA_MAP[a.turma]||'\u2014')+' \u00b7 '+a.turma;
+  document.getElementById('ag-dia-label').textContent=DFULL[alunoGradeDia]+(isToday?' (hoje)':'');
+  var list=document.getElementById('ag-aulas-list'); if(!list) return;
+  var html='';
+  for(var i=0;i<sched.length;i++){
+    var cl=sched[i];
+    var isNow=isToday&&nm>=t2m(cl.h)&&nm<t2m(cl.e);
+    var isDone=isToday&&nm>=t2m(cl.e);
+    html+='<div class="ag-aula-card'+(isNow?' now':isDone?' done':'')+'">'
+      +'<div class="ag-num'+(isNow?' now':'')+'">'+cl.n+'</div>'
+      +'<div class="ag-info"><div class="ag-disc">'+cl.nm+(isNow?'<span class="ag-now-badge">Agora</span>':'')+'</div>'
+      +'<div class="ag-meta">Prof. '+cl.p+(cl.ead?' \u00b7 \u1f4f1 EAD':'')+'</div></div>'
+      +'<div class="ag-hora'+(isNow?' now':'')+'">'+cl.h+'\u2013'+cl.e+'</div></div>';
+  }
+  if(html==='') html='<div style="text-align:center;padding:24px;color:#c0c9da;font-size:13px">Sem aulas neste dia</div>';
+  list.innerHTML=html;
+}
+
+// ----- AVISOS COMPLETOS -----
+function renderAvisosAlunoFull(){
+  var a=ALUNO_LOGADO; if(!a) return;
+  var el=document.getElementById('aluno-avisos-full'); if(!el) return;
+  var avisos=AVISOS_LIST.filter(function(av){return av.dest==='todas'||av.dest===a.turma;});
+  if(avisos.length===0){ el.innerHTML='<div style="text-align:center;padding:40px;color:#c0c9da;font-size:14px">Nenhum aviso ainda</div>'; return; }
+  var html='';
+  for(var i=0;i<avisos.length;i++){
+    var av=avisos[i];
+    html+='<div class="aa-card aa-new" style="margin-bottom:10px"><div class="aa-ic">'+av.ic+'</div>'
+      +'<div style="flex:1"><div class="aa-ttl">'+av.titulo+'</div>'
+      +'<div class="aa-body">'+av.corpo+'</div>'
+      +'<div class="aa-time">'+av.time+(av.dest&&av.dest!=='todas'?' \u00b7 '+av.dest:'')+'</div></div></div>';
+  }
+  el.innerHTML=html;
+}
+
+// ----- PERFIL ALUNO -----
+function renderPerfilAluno(){
+  var a=ALUNO_LOGADO; if(!a) return;
+  document.getElementById('ap-nome-display').textContent=a.nome;
+  document.getElementById('ap-turma-display').textContent=a.turma+' \u00b7 '+(SALA_MAP[a.turma]||'\u2014');
+  // matricula removida
+  document.getElementById('ap-email-row').textContent=a.email||'\u2014';
+  document.getElementById('ap-turma-row').textContent=a.turma;
+  document.getElementById('ap-sala-row').textContent=SALA_MAP[a.turma]||'\u2014';
+  // matricula removida
+  var foto=document.getElementById('ap-foto');
+  var emoji=document.getElementById('ap-emoji');
+  if(a.foto){ foto.src=a.foto; foto.style.display='block'; emoji.style.display='none'; }
+  else { foto.style.display='none'; emoji.style.display='block'; }
+}
+
+function openEditAluno(){
+  var a=ALUNO_LOGADO; if(!a) return;
+  document.getElementById('ea-nome').value=a.nome;
+  document.getElementById('ea-email').value=a.email||'';
+  document.getElementById('edit-aluno-overlay').classList.add('open');
+}
+function closeEditAluno(){ document.getElementById('edit-aluno-overlay').classList.remove('open'); }
+function salvarEditAluno(){
+  var nome=document.getElementById('ea-nome').value.trim();
+  var email=document.getElementById('ea-email').value.trim();
+  if(!nome){ mostrarToast('\u26a0\ufe0f Informe o nome!','#e74c3c'); return; }
+  ALUNO_LOGADO.nome=nome; ALUNO_LOGADO.email=email;
+  var alunos=getAlunos();
+  for(var i=0;i<alunos.length;i++){
+    if(alunos[i].matricula===ALUNO_LOGADO.matricula){ alunos[i].nome=nome; alunos[i].email=email; break; }
+  }
+  saveAlunos(alunos);
+  localStorage.setItem('aluno_logado', JSON.stringify(ALUNO_LOGADO));
+  closeEditAluno();
+  renderPerfilAluno();
+  atualizarHeaderAluno();
+  mostrarToast('\u2705 Perfil atualizado!','#27ae60');
+}
+
+function trocarFotoAluno(input){
+  var file=input.files[0]; if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    ALUNO_LOGADO.foto=e.target.result;
+    var alunos=getAlunos();
+    for(var i=0;i<alunos.length;i++){
+      if(alunos[i].matricula===ALUNO_LOGADO.matricula){ alunos[i].foto=e.target.result; break; }
+    }
+    saveAlunos(alunos);
+    localStorage.setItem('aluno_logado', JSON.stringify(ALUNO_LOGADO));
+    renderPerfilAluno();
+    atualizarHeaderAluno();
+    mostrarToast('\u1f4f7 Foto atualizada!','#27ae60');
+  };
+  reader.readAsDataURL(file);
+}
+
+function logoutAluno(){
+  ALUNO_LOGADO=null;
+  localStorage.removeItem('aluno_logado');
+  document.getElementById('anav').classList.remove('vis');
+  go('splash');
+}
+
+// ----- NAVEGA\u00c7\u00c3O ALUNO -----
+function goAlunoHome(){
+  document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on');});
+  document.getElementById('aluno-home').classList.add('on');
+  document.getElementById('anav').classList.add('vis');
+  setAnb('anb-home');
+  renderAlunoHome();
+}
+function goAlunoScreen(id){
+  document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on');});
+  document.getElementById(id).classList.add('on');
+  document.getElementById('anav').classList.add('vis');
+  var nb=id.replace('aluno-','anb-');
+  setAnb(nb);
+  if(id==='aluno-grade'){ alunoGradeDia=Math.max(0,realDayIdx()); renderGradeAluno(); }
+  if(id==='aluno-avisos'){ renderAvisosAlunoFull(); var b=document.getElementById('anb-badge'); if(b)b.style.display='none'; }
+  if(id==='aluno-perfil'){ renderPerfilAluno(); }
+}
+function setAnb(id){
+  document.querySelectorAll('.anb').forEach(function(b){b.classList.remove('on');});
+  var el=document.getElementById(id);
+  if(el) el.classList.add('on');
+}
+
+// Auto-login aluno se estava logado
+if(ALUNO_LOGADO){
+  setTimeout(function(){
+    document.querySelector('.scr.on').classList.remove('on');
+    entrarAreaAluno();
+  }, 100);
+}
+
+// Notificar aluno sobre avisos novos
+var ultimoAvisoAluno = parseInt(localStorage.getItem('ultimo_aviso_aluno')||'0');
+function checkAvisosAluno(){
+  if(!ALUNO_LOGADO) return;
+  var avisos=AVISOS_LIST.filter(function(av){return av.dest==='todas'||av.dest===ALUNO_LOGADO.turma;});
+  if(avisos.length > ultimoAvisoAluno){
+    var badge=document.getElementById('anb-badge');
+    if(badge) badge.style.display='flex';
+    ultimoAvisoAluno=avisos.length;
+    localStorage.setItem('ultimo_aviso_aluno',ultimoAvisoAluno);
+  }
+}
+setInterval(checkAvisosAluno, 5000);
+checkAvisosAluno();
+
+
+var PERFIL_DATA = (function(){
+  var s = localStorage.getItem('perfil_data');
+  if(s){try{return JSON.parse(s);}catch(e){}}
+  return {nome:'Profa. Graziela', cargo:'Professora \u00b7 ETE Luiz Alves Lacerda', email:'graziela@ete.edu.br', foto:''};
+})();
+
+function carregarPerfil(){
+  document.getElementById('pf-nome').textContent = PERFIL_DATA.nome;
+  document.getElementById('pf-cargo').textContent = PERFIL_DATA.cargo;
+  document.getElementById('pf-email').textContent = PERFIL_DATA.email;
+  var foto = PERFIL_DATA.foto;
+  var fotoEl = document.getElementById('pf-foto');
+  var emojiEl = document.getElementById('pf-emoji');
+  if(foto){
+    fotoEl.src = foto; fotoEl.style.display='block'; emojiEl.style.display='none';
+  } else {
+    fotoEl.style.display='none'; emojiEl.style.display='block';
+  }
+  // Atualiza avatar do home
+  var av = document.querySelector('.hhl-avatar');
+  if(av){
+    if(foto){
+      av.innerHTML='<img src="'+foto+'" style="width:36px;height:36px;object-fit:cover;border-radius:50%"/>';
+    } else {
+      av.textContent='\u1f469\u200d\u1f3eb';
+    }
+  }
+  // Stats
+  var regCount = Object.keys(PAREI).filter(function(k){return PAREI[k]&&PAREI[k].val;}).length;
+  var statReg = document.getElementById('pf-stat-reg');
+  if(statReg) statReg.textContent = regCount;
+  var discCount = DISCS.length;
+  var statDisc = document.getElementById('pf-stat-disc');
+  if(statDisc) statDisc.textContent = discCount;
+}
+
+function trocarFotoProf(input){
+  var file=input.files[0]; if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    PERFIL_DATA.foto=e.target.result;
+    localStorage.setItem('perfil_data',JSON.stringify(PERFIL_DATA));
+    carregarPerfil();
+    mostrarToast('Foto atualizada!','#1553B4');
+  };
+  reader.readAsDataURL(file);
+}
+function openEditPerfil(){
+  document.getElementById('edit-nome').value = PERFIL_DATA.nome;
+  document.getElementById('edit-cargo').value = PERFIL_DATA.cargo;
+  document.getElementById('edit-email').value = PERFIL_DATA.email;
+  var prevImg = document.getElementById('edit-preview-img');
+  var prevEmoji = document.getElementById('edit-preview-emoji');
+  if(PERFIL_DATA.foto){
+    prevImg.src=PERFIL_DATA.foto; prevImg.style.display='block'; prevEmoji.style.display='none';
+  } else {
+    prevImg.style.display='none'; prevEmoji.style.display='block';
+  }
+  document.getElementById('edit-overlay').classList.add('open');
+}
+
+function closeEditPerfil(){
+  document.getElementById('edit-overlay').classList.remove('open');
+}
+
+function previewFoto(input){
+  var file = input.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var prevImg = document.getElementById('edit-preview-img');
+    var prevEmoji = document.getElementById('edit-preview-emoji');
+    prevImg.src = e.target.result;
+    prevImg.style.display = 'block';
+    prevEmoji.style.display = 'none';
+    PERFIL_DATA._fotoTemp = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removerFoto(){
+  PERFIL_DATA._fotoTemp = '';
+  document.getElementById('edit-preview-img').style.display='none';
+  document.getElementById('edit-preview-emoji').style.display='block';
+  document.getElementById('file-foto').value='';
+}
+
+function salvarPerfil(){
+  var nome = document.getElementById('edit-nome').value.trim();
+  var cargo = document.getElementById('edit-cargo').value.trim();
+  var email = document.getElementById('edit-email').value.trim();
+  if(!nome){alert('Informe o nome!'); return;}
+  PERFIL_DATA.nome = nome || PERFIL_DATA.nome;
+  PERFIL_DATA.cargo = cargo || PERFIL_DATA.cargo;
+  PERFIL_DATA.email = email || PERFIL_DATA.email;
+  if(PERFIL_DATA._fotoTemp !== undefined) PERFIL_DATA.foto = PERFIL_DATA._fotoTemp;
+  delete PERFIL_DATA._fotoTemp;
+  localStorage.setItem('perfil_data', JSON.stringify(PERFIL_DATA));
+  carregarPerfil();
+  closeEditPerfil();
+  mostrarToast('\u2705 Perfil atualizado com sucesso!', '#1553B4');
+}
+
+// ======= AVISO IMEDIATO =======
+var AVISOS_LIST = (function(){
+  var s = localStorage.getItem('avisos_list');
+  if(s){try{return JSON.parse(s);}catch(e){}}
+  return [
+    {ic:'\u1f4e2',tipo:'Aviso',titulo:'Entrega do Projeto Final',corpo:'O projeto PI I deve ser entregue at\u00e9 25/04 via plataforma. N\u00e3o esque\u00e7a!',dest:'todas',time:'hoje, 10:00',cls:'nw'},
+    {ic:'\u23f0',tipo:'Aviso',titulo:'Aula de DCU em 15 minutos',corpo:'Design Centrado no Usu\u00e1rio come\u00e7a \u00e0s 18:40 \u00b7 Sala 10 \u00b7 I TDS B',dest:'I TDS B',time:'hoje, 18:25',cls:'wn'},
+    {ic:'\u1f4cd',tipo:'Registro',titulo:'Parada Registrada',corpo:'LPC: Prof. Marcos registrou parada no Exerc\u00edcio 7, Lista 2.',dest:'todas',time:'hoje, 17:30',cls:'ok'}
+  ];
+})();
+
+var tipoAvisoAtual = '\u1f501';
+var notifAtivas = parseInt(localStorage.getItem('notif_ativas')||'1');
+
+function selTipoAviso(el, tipo){
+  tipoAvisoAtual = tipo;
+  document.querySelectorAll('.aviso-tipo').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+}
+
+function enviarAvisoImediato(){
+  var txt = document.getElementById('aviso-txt').value.trim();
+  if(!txt){mostrarToast('\u26a0\ufe0f Digite a mensagem do aviso!','#e74c3c'); return;}
+  var dest = document.getElementById('aviso-dest').value;
+  var now = new Date();
+  var timeStr = 'hoje, '+pad(now.getHours())+':'+pad(now.getMinutes());
+  var mapa = {'\u1f501':'Troca de sala','\u26a0\ufe0f':'Aviso geral','\u274c':'Aula cancelada','\u1f4cb':'Tarefa/entrega','\u1f550':'Atraso'};
+  var titulo = mapa[tipoAvisoAtual]||'Aviso';
+  var destLabel = dest==='todas'?'Todas as turmas':dest;
+  var novo = {ic:tipoAvisoAtual, tipo:titulo, titulo:titulo+' \u2014 '+destLabel, corpo:txt, dest:dest, time:timeStr, cls:'imediato'};
+  AVISOS_LIST.unshift(novo);
+  localStorage.setItem('avisos_list', JSON.stringify(AVISOS_LIST));
+  renderAvisos();
+  document.getElementById('aviso-txt').value='';
+  // Mostrar notifica\u00e7\u00e3o flutuante
+  exibirNotif(tipoAvisoAtual, titulo, txt, timeStr);
+  // Badge no nav
+  var badge = document.getElementById('avisos-badge');
+  if(badge) badge.style.display='flex';
+  mostrarToast('\u1f4e3 Aviso enviado com sucesso!','#27ae60');
+}
+
+function renderAvisos(){
+  var list = document.getElementById('av-list-dyn');
+  if(!list) return;
+  var html = '<div class="av-sec">\u1f534 Avisos</div>';
+  if(AVISOS_LIST.length===0){
+    html+='<div style="text-align:center;padding:30px;color:#c0c9da;font-size:14px">Nenhum aviso ainda.<br>Crie um no Perfil!</div>';
+  }
+  for(var i=0;i<AVISOS_LIST.length;i++){
+    var a=AVISOS_LIST[i];
+    html+='<div class="av-card '+a.cls+'">'
+      +'<div class="av-ic" style="background:rgba(231,76,60,.1);width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+a.ic+'</div>'
+      +'<div style="flex:1"><div class="av-ttl">'+a.titulo+'</div>'
+      +'<div class="av-body">'+a.corpo+'</div>'
+      +'<div class="av-time">'+a.time+(a.dest&&a.dest!=='todas'?' \u00b7 '+a.dest:'')+'</div></div>'
+      +'<button onclick="deletarAviso('+i+')" style="background:none;border:none;font-size:16px;color:#c0c9da;cursor:pointer;padding:4px;flex-shrink:0" title="Remover">\u1f5d1</button>'
+      +'</div>';
+  }
+  list.innerHTML=html;
+}
+
+function exibirNotif(ic, titulo, corpo, time){
+  var f = document.getElementById('notif-float');
+  document.getElementById('notif-ic').textContent = ic;
+  document.getElementById('notif-title').textContent = titulo;
+  document.getElementById('notif-body').textContent = corpo;
+  document.getElementById('notif-time').textContent = time||'agora';
+  f.classList.add('show');
+  if(window._notifTimer) clearTimeout(window._notifTimer);
+  window._notifTimer = setTimeout(function(){ fecharNotif(); }, 6000);
+  // Web Notification API
+  if(notifAtivas && 'Notification' in window){
+    if(Notification.permission==='granted'){
+      new Notification('\u1f4e3 TecEdu \u2014 '+titulo, {body:corpo, icon:'icon-192.png'});
+    } else if(Notification.permission==='default'){
+      Notification.requestPermission().then(function(p){
+        if(p==='granted') new Notification('\u1f4e3 TecEdu \u2014 '+titulo, {body:corpo});
+      });
+    }
+  }
+}
+
+function fecharNotif(){
+  document.getElementById('notif-float').classList.remove('show');
+}
+
+function toggleNotif(row){
+  notifAtivas = notifAtivas ? 0 : 1;
+  localStorage.setItem('notif_ativas', notifAtivas);
+  var lbl = document.getElementById('notif-toggle');
+  if(lbl){
+    lbl.textContent = notifAtivas ? 'Ativo' : 'Inativo';
+    lbl.style.background = notifAtivas ? 'rgba(21,83,180,.1)' : 'rgba(100,100,100,.08)';
+    lbl.style.color = notifAtivas ? 'var(--blue)' : '#888';
+  }
+  if(notifAtivas && 'Notification' in window && Notification.permission==='default'){
+    Notification.requestPermission();
+  }
+  mostrarToast(notifAtivas?'\u1f514 Notifica\u00e7\u00f5es ativadas!':'\u1f515 Notifica\u00e7\u00f5es desativadas','#1553B4');
+}
+
+function mostrarToast(msg, cor){
+  var t=document.createElement('div');
+  t.textContent=msg;
+  t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:'+(cor||'#27ae60')+';color:#fff;padding:12px 22px;border-radius:24px;font-size:13px;font-weight:800;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.25);white-space:nowrap;max-width:90vw;text-align:center';
+  document.body.appendChild(t);
+  setTimeout(function(){t.remove();},2500);
+}
+
+// ======= NOTIFICA\u00c7\u00d5ES EM TEMPO REAL (aula prestes a come\u00e7ar) =======
+var notifShownFor='';
+function checkNotifAula(){
+  if(!notifAtivas) return;
+  var ri=realDayIdx();
+  if(ri<0) return;
+  var dk=DAYS[ri];
+  var sched=SCH[dk]||[];
+  var nm=nowM();
+  for(var i=0;i<sched.length;i++){
+    var cl=sched[i];
+    var minNext=t2m(cl.h)-nm;
+    var key=cl.d+cl.h;
+    if(minNext>0&&minNext<=10&&notifShownFor!==key){
+      notifShownFor=key;
+      exibirNotif('\u1f514','Aula em '+minNext+' min \u2014 '+TURMA_ATUAL,cl.nm+' \u00b7 Prof. '+cl.p+' \u00b7 '+getSala(cl.d),pad(new Date().getHours())+':'+pad(new Date().getMinutes()));
+    }
+  }
+}
+
+buildTabs();
+renderG();
+renderDiscs();
+carregarPerfil();
+renderAvisos();
+tick();
+setInterval(checkNotifAula, 30000);
+
+// Pedir permiss\u00e3o de notifica\u00e7\u00e3o ao entrar
+if('Notification' in window && Notification.permission==='default'){
+  setTimeout(function(){ Notification.requestPermission(); }, 3000);
+}
+</script>
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').then(function(reg){
+      // Verifica atualiza\u00e7\u00e3o a cada 60 segundos
+      setInterval(function(){ reg.update(); }, 60000);
+
+      reg.addEventListener('updatefound', function(){
+        var newWorker = reg.installing;
+        newWorker.addEventListener('statechange', function(){
+          if(newWorker.state === 'installed' && navigator.serviceWorker.controller){
+            // Mostra aviso de atualiza\u00e7\u00e3o dispon\u00edvel
+            var toast = document.createElement('div');
+            toast.innerHTML = '\u1f504 Nova vers\u00e3o dispon\u00edvel! <button onclick="window.location.reload()" style="margin-left:10px;background:#fff;color:#1553B4;border:none;border-radius:8px;padding:4px 12px;font-size:12px;font-weight:800;cursor:pointer">Atualizar</button>';
+            toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1553B4;color:#fff;padding:12px 18px;border-radius:24px;font-size:13px;font-weight:700;z-index:9999;box-shadow:0 8px 24px rgba(21,83,180,.4);white-space:nowrap;display:flex;align-items:center';
+            document.body.appendChild(toast);
+          }
+        });
+      });
+    }).catch(function(err){
+      console.log('SW erro:', err);
+    });
+  });
+}
+</script>
+
+</body>
+</html>
